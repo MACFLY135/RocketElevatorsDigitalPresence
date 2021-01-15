@@ -50,7 +50,7 @@
 		BACKGROUND IMAGE [together with .boxed class]
 		data-background="assets/images/_smarty/boxed_background/1.jpg"
 	-->
-	<body class="smoothscroll enable-animation grain-blue">
+	<body class="smoothscroll enable-animation ">
 
 
 
@@ -84,7 +84,7 @@
 
 				Example Usage:  class="clearfix sticky header-sm transparent b-0"
 			-->
-			<div id="header" class="navbar-toggleable-md sticky header-md clearfix">
+			<div id="header" class="navbar-toggleable-md sticky header-md clearfix" style = "background-color: rgb(255, 255, 255);">
 
 				<!-- TOP NAV -->
 				<header id="topNav">
@@ -116,13 +116,16 @@
 									Add .external for an external link!
 								-->
 								<ul id="topMain" class="nav nav-pills nav-main nav-onepage">
-									<li class="active"><!-- HOME -->
-										<a class=" scrollTo" href="#top">
+										<a  class="dropdown-toggle" data-toggle="dropdown" href="#services-nav">
+									<li  class="active"><!-- HOME -->
+										<a id="home-nav" href="index.html">
+											
 											HOME
+										
 										</a>
 									</li>
 									<li class="nav-item dropdown">
-										<a class="dropdown-toggle" data-toggle="dropdown" href="#services-nav">
+										<a id="services-nav" class="dropdown-toggle" data-toggle="dropdown" href="#services-nav">
 										  SERVICES 
 										</a>
 										<ul class="dropdown-menu">
@@ -131,24 +134,24 @@
 										</ul>
 									</li>
 									<li><!-- Portfolio -->
-										<a href="#Portfolio">
+										<a id="portfolio-nav" href="index.html#Portfolio">
 											PORTFOLIO
 										</a>
 									</li>
 									<li><!-- NEWS -->
-										<a href="#news">
+										<a id="news-nav" href="index.html#news">
 											NEWS
 										</a>
 									</li>
 									
 									<li><!-- CLIENTS -->
-										<a href="#clients">
+										<a id="clients-nav" href="index.html#clients">
 											CLIENTS
 										</a>
 									</li>
 									
 									<li><!-- CONTACT -->
-										<a href="#contact">
+										<a id="contact-nav" href="index.html#contact">
 											CONTACT
 										</a>
 									</li>
@@ -219,7 +222,7 @@
 							<p>
 								Rocket Elevators has been an elevator-contractor for almost 50 years. We haven't and will continue not to fail at satisfying our clients' needs.
 							</p>
-							<h2>(800) 123-4567</h2>
+							<h2>(418) 555-1234</h2>
 						</div>
 						<!-- /col #1 -->
 
