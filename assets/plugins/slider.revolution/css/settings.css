@@ -1,4088 +1,2436 @@
-/*	main menu settings css style */
-
-/* in front of main panel, which has a Z of 1000, and top row, which has a Z of 2000 */
-@define settingszindex: 3000;
-
-@define settingsmaxbuttonspercolumn: 10;
-
-/* text colors */
-@define tcsettingsbutton: gradient( linear, 0% 0%, 0% 100%, from( #d2d2d2ff ), to( #abababff ) );
-
-/* transition duration for settings panels to opaque in/out; referred to from code so don't change the name */
-@define SettingsPanelTransitionDuration: 0.23s;
-
-@define bgcolorwash: #395d73ff;
-//@define bgcolorwash: #ff00ffff;
-@define GameControllerAnimationDuration: 0.1;
-
-
-/* visibility rules */
-.ShowIfStreamingUI { visibility: collapse; }
-.ShowIfNotStreamingUI { visibility: visible; }
-.StreamingUI .ShowIfStreamingUI { visibility: visible; }
-.StreamingUI .ShowIfNotStreamingUI { visibility: collapse; }
-
-
-/* Changed from a global image selector. You may need to add the class to some images now */
-Image.WashBlue
-{
-	wash-color: messagecolorwash;
-	horizontal-align: center;
-}
-
-AvatarImage Image
-{
-	wash-color: none;
-}
-
-SettingsPanel
-{
-	width: 100%;
-	height: 100%;
-}
-
-.SettingsSection
-{
-	width: 100%;
-	height: 100%;
-	font-size: 24px;
-	font-family: platformfont;
-	margin-left: 0px;
-
-	transition-property: opacity, opacity-mask;
-	transition-duration: SettingsPanelTransitionDuration;
-	transition-timing-function: bigpicture-ease-in-out;
-
-	z-index: settingszindex;
-	color: tcstatictext;
-	padding-bottom: 20px;
-	margin-bottom: 0px;
-
-
-	transition-property: opacity, blur, pre-transform-scale2d, wash-color, transform;
-	transition-duration: .3s;
-	transition-timing-function: bigpicture-ease-in-out;
-}
-
-.SettingsModal
-{
-	width: 100%;
-	height: 100%;
-	font-size: 24px;
-	font-family: platformfont;
-	color: tcstatictext;
-	flow-children: down;
-	background-color: settingsbackgroundgradient;
-}
-
-.SettingsLabel
-{
-	margin: 14px 16px 7px 0px;
-	color: tcstatictext;
-}
-.ExtraMarginBottom
-{
-	margin-bottom: 50px;
-}
-
-.PaddedLabel
-{
-	margin: 0px 35px 20px 0px;
-	color: tcstatictext;
-}
-
-.NetworkErrorGroup
-{
-	flow-children: right;
-	width: 100%;
-}
-
-#NetworkErrorLabel
-{
-	horizontal-align: right;
-	color: error_color;
-	margin: 14px 0px 7px 16px;
-}
-
-#Settings:descendantfocus
-{
-	opacity: 1.0;
-	pre-transform-scale2d: 1.0;
-	transform: translateY( 0px );
-}
-
-#SettingsContent
-{
-	opacity: 1.0;
-
-	padding-left: 300px;
-	transition-property: opacity;
-	transition-duration: 0.2s;
-	transition-timing-function: bigpicture-ease-in-out;
-	flow-children: right;
-}
-
-.SettingsHeader
-{
-	background-image: url("file://{images}/store/slideshow_glow.png");
-	background-repeat: no-repeat no-repeat;
-	background-position: left 0px top 75px;
-	height: 180px;
-	width: 100%;
-	z-index: 0;
-}
-
-.SettingsContained .SettingsHeader
-{
-	visibility: collapse;
-}
-
-.SettingsHeaderLegend
-{
-	font-size: 78px;
-	font-family: platformfont;
-	margin-left: 300px;
-	margin-top: 76px;
-	color: applabelsolid;
-}
-
-.SettingsHeaderBackground
-{
-	background-color: bgwithgradient;
-	height: 150px;
-	width: 100%;
-}
-
-#SteamPlayButton
-{
-	visibility: collapse;
-}
-
-.Linux #SteamPlayButton
-{
-	visibility: visible;
-}
-
-
-.LongDesc
-{
-	padding-right: 10px;
-	font-family: platformfont;
-
-	font-size: 24px;
-}
-
-.LongDesc.Small
-{
-    font-size: 22px;
-    font-weight: light;
-}
-
-.NetworkSettingsButtonLabel
-{
-	padding-right: 10px;
-	color: detailsdatalabel;
-	font-family: platformfont;
-
-	padding-top: 4px;
-	font-size: 24px;
-}
-
-.Highlight_Error
-{
-	padding-top: 8px;
-	color: red;
-}
-
-
-
-// class for main settings panel
-.SettingsMainContent
-{
-	// add a little padding so the Z-transform does not take a hovered/focused button out of bounds
-	position: 0px 150px 0px;
-	padding-top: 30px;
-	width: 100%;
-	height: 80%;
-	horizontal-align: left;
-	flow-children: right;
-}
-
-// class for subpanels (left, right, or center) in settings subscreens
-.SettingsContent
-{
-	// add a little padding so the Z-transform does not take a hovered/focused button out of bounds
-	padding: 20px 0px 0px 0px;
-	height: 80%;
-	flow-children: down;
-	padding-left: 0px;
-	padding-right: 195px;
-	padding-top: 30px;
-
-	horizontal-align: left;
-	vertical-align: top;
-	width: 100%;
-	height: fit-children;
-}
-
-// CSS doesn't do the selection in a way that works for us with just ".SettingsContent" and ".FlowRight"
-// so we give it a hand here
-.SettingsContent.FlowRight
-{
-	flow-children: right;
-}
-
-.SettingsContained .SettingsContent
-{
-	height: fit-children;
-	padding: 0px;
-}
-
-#SettingsInGame_Enable.CheckBox
-{
-	width: fit-children;
-	min-width: 475px;
-}
-
-#SettingsInGame_SubControls .SettingsContent
-{
-	padding: 0px;
-}
-
-.SteamOS #SettingsInGame_Enable
-{
-	visibility: collapse;
-}
-
-ToggleButton .TickBox
-{
-	opacity: 1.0;
-}
-
-Button,
-.Button,
-ParentalButton,
-ToggleButton,
-.CheckBox,
-RadioButton
-{
-	width: 600px;
-	min-height: 48px;
-	height: fit-children;
-}
-
-// legend of textual item in settings RHS
-.SettingsLegend
-{
-	color: tcstatictext;
-	margin-top: 4px;
-	margin-bottom: 4px;
-	font-family: platformfont;
-
-}
-
-.SettingsSubhead
-{
-	width: 1200px;
-	flow-children: down;
-	padding-bottom: 10px;
-}
-
-// text of textual item in settings RHS
-.SettingsValue
-{
-	margin: 4px 0px 12px 0px;
-	color: applabelsolid;
-	max-width: 475px;
-	text-overflow: clip;
-	width: 100%;
-}
-
-.SettingsFullContent
-{
-	horizontal-align: center;
-	width: 1200px;
-}
-
-Label.SettingsStatic
-{
-	horizontal-align: center;
-	color: tcstatictext;
-	width: 100%;
-	margin-top: 15px;
-	margin-bottom: 8px;
-	font-size: 24px;
-}
-
-.SettingsLeftContent
-{
-	horizontal-align: left;
-	vertical-align: top;
-	flow-children: down;
-	width: 650px;
-	height: fit-children;
-}
-
-.SettingsLeftContent.SettingsController
-{
-	width: 800px;
-}
-
-.SettingsContentColumnv2
-{
-	horizontal-align: left;
-	vertical-align: top;
-	flow-children: down;
-	width: 550px;
-	height: fit-children;
-	padding-right: 40px;
-}
-
-.SettingsContentColumnv2 Button,
-.SettingsContentColumnv2 ToggleButton,
-{
-	width: 100%;
-}
-
-SettingsPanel .SettingsContentColumnv2 Button
-{
-	width: 470px;
-}
-
-.SettingsColumnarContent
-{
-	horizontal-align: left;
-	vertical-align: top;
-	width: 600px;
-	margin-right: 50px;
-	padding-top: 10px;
-}
-
-.SettingsMiddleContent
-{
-	width: 525px;
-	horizontal-align: left;
-	padding-right: 20px;
-	margin-left: 20px;
-	height: 770px;
-}
-
-.SettingsRightContent
-{
-	width: 650px;
-	height: 770px;
-	flow-children: down;
-	margin-left: 650px;
-	horizontal-align: left;
-	padding-right: 40px;
-}
-
-#SettingsContent .SettingsRightContent
-{
-	margin-left: 50px;
-}
-
-.VisibleColumns3 #SettingsContent .SettingsLeftContent, 
-.VisibleColumns3 #SettingsContent .SettingsMiddleContent,
-.VisibleColumns3 #SettingsContent .SettingsRightContent
-{
-	width: 460px;
-}
-
-#Settings_Voice .SettingsRightContent
-{
-	margin-top: 0px;
-}
-
-
-.SettingsCenterContent
-{
-	width: 1200px;
-	horizontal-align: left;
-	padding-left: 300px;
-}
-
-.SettingsCenterContentWide
-{
-	width: 1125px;
-	horizontal-align: left;
-	margin-left: 300px;
-	flow-children: down;
-}
-
-.SettingsCenterContentWideInterface
-{
-	width: 1125px;
-	horizontal-align: left;
-	margin-left: 300px;
-	flow-children: right;
-}
-
-
-.SettingsLeftContentWide
-{
-	width: 1125px;
-	flow-children: down;
-	horizontal-align: left;
-	margin-left: 0px;
-	flow-children: down;
-}
-
-
-.SettingsSection
-{
-	height: 100%;
-	width: 100%;
-
-	flow-children: down;
-}
-
-.SettingsSection.SettingsContained
-{
-	background-color: none;
-}
-
-Slider.ChatScale
-{
-	width: 100%;
-	height: 21px;
-}
-
-Slider.ChatScale:disabled
-{
-	visibility: collapse;
-}
-
-.SettingsBottomPanel
-{
-	margin-left: 170px;
-	margin-top: 50px;
-	width: 100%;
-	height: 100%;
-}
-
-#SettingsFriends_AvatarContainer
-{
-	flow-children: right;
-	margin-bottom: 12px;
-	margin-top: 8px;
-	width: 100%;
-	margin-right: 10px;
-}
-
-AvatarImage
-{
-	border-style: solid;
-	border-width: 4px;
-	border-radius: 8px;
-
-	height: 95px;
-	width: 95px;
-}
-
-.AvatarCaption
-{
-	vertical-align: center;
-	margin: 0% 0% 0% 0%;
-	padding: 6px;
-	width: 100%;
-	margin-left: 8px;
-}
-
-
-
-
-DropDown
-{
-	width: 600px;
-	margin-top: 0px;
-}
-
-DropDown Label
-{
-	margin-top: 2px;
-}
-
-
-.Resolution
-{
-	horizontal-align: center;
-	box-shadow: fill #00000040 0px 0px 10px 0px;
-	vertical-align: center;
-	margin: 0px 0px 0px 10px;
-}
-
-
-
-#Settings_About .SettingsContent
-{
-	width: 1200px;
-	padding: 30px;
-	padding-left: 300px;
-}
-
-.AboutSectionHeading
-{
-	horizontal-align: left;
-	margin: 20px 0px 20px 0px;
-	font-size: 36px;
-
-	color: tcstatictext;
-}
-
-.AboutInfoWrapper
-{
-	flow-children: right;
-	height: 40px;
-	overflow: clip;
-}
-
-#Settings_Display .VertContainer
-{
-	margin-bottom: 20px;
-}
-
-#Settings_TimeZone .VertContainer
-{
-	margin-bottom: 20px;
-}
-
-#Settings_Language .HorzContainer
-{
-	margin-bottom: 20px;
-}
-
-#ContinentsDropDownMenu,#CountriesDropDownMenu,#RegionsDropDownMenu
-{
-	height: fit-children;
-}
-
-.OOBE #ApplyButton
-{
-	visibility: collapse;
-}
-
-.OOBE .SettingsSection
-{
-	background-color: #00000000;
-}
-
-#ApplyButton
-{
-	margin-top: 50px;
-}
-
-
-#AvailableNetworksList
-{
-	padding: 10px;
-	height: 525px;
-	width: 985px;
-
-	overflow: squish scroll;
-	background-color: simplebutton;
-
-	opacity: 0.8;
-}
-
-.SettingsContained #AvailableNetworksList
-{
-	height: 46%;
-}
-
-#AvailableNetworksList:descendantfocus
-{
-	opacity: 1.0;
-}
-
-.AvailableNetwork
-{
-	padding: 4px;
-	margin-right: 5px;
-	margin-left: 0px;
-	width: 100%;
-
-	horizontal-align: left;
-
-	border-width: 5px;
-	border-style: solid;
-	border-color: none;
-	background-color: none;
-	color: #fdfeff;
-
-	transition-property: background-color, border, box-shadow;
-	transition-duration: 0.23s;
-	transition-timing-function: linear;
-}
-
-.AvailableNetwork Label
-{
-	transform: translateX( 0px );
-	transition-property: transform;
-	transition-duration: 0.23s;
-	transition-timing-function: bigpicture-ease-in-out;
-	color: applabelsolid;
-}
-
-.AvailableNetwork:hover .DeviceName,
-NetworkSettings_AvailableSSID:hover .NetworkName
-{
-	transform: translateX( 7px );
-}
-
-.AvailableNetwork:descendantfocus Label
-{
-	color: applabelselectedsolid;
-}
-
-
-.AvailableDevices
-{
-	width: 985px;
-	padding: 4px;
-	margin-top: 0px;
-	margin-bottom: 0px;
-	height: 50px;
-}
-
-.AvailableNetworkSelected
-{
-	padding: 4px;
-	border-width: 5px;
-	border-style: solid;
-	border-color: none;
-
-	color: applabelsolid;
-
-	background-color: blue;
-
-	transition-property: background-color, border, box-shadow;
-	transition-duration: 0.23s;
-	transition-timing-function: linear;
-
-}
-
-
-.AvailableNetworkSelected:hover,
-{
-	background-color: blue;
-}
-
-.Radios
-{
-	flow-children: down;
-}
-
-#SecurityOptions
-{
-	margin-left:10px;
-}
-
-.AvailableNetwork:descendantfocus,
-.AvailableNetworkSelected:focus,
-.AvailableNetworkSelected:hover:focus,
-{
-	padding: 4px;
-
-	border-width: 5px;
-	border-style: solid;
-	border-color: white;
-
-	color: #231f20;
-
-	background-color: gradient( linear, 0% 0%, 100% 0%, from( #ffffff ), to( #bababa ) );
-
-	transition-property: background-color, border, box-shadow;
-	transition-duration: 0.4s;
-	transition-timing-function: linear;
-
-	animation-name: main-button-glow-movement;
-	animation-duration: 1.7s;
-	animation-delay: 0.4s;
-	animation-timing-function: bigpicture-ease-in-out;
-	animation-iteration-count: infinite;
-	animation-direction: normal;
-}
-
-
-.WirelessNetworkStatus
-{
-	horizontal-align: right;
-	flow-children: right;
-}
-
-.NetworkConnectionStatus
-{
-	text-align: right;
-	horizontal-align: right;
-	margin-right: 10px;
-	font-size: 22px;
-	padding-left: 10px;
-	padding-right: 50px;
-	padding-top: 2px;
-}
-	
-.NetworkLockBase
-{
-	width: 32px;
-	horizontal-align: right;
-	height: 32px;
-	margin-right: 60px;
-}
-
-.NetworkLocked #NetworkLock
-{
-	background-image: url( "file://{images}/settings/icon_wireless_secure.png" );
-}
-
-.AvailableNetworkSelected:descendantfocus .NetworkLocked #NetworkLock
-.AvailableNetwork:descendantfocus .NetworkLocked #NetworkLock
-{
-	wash-color: applabelselectedsolid;
-}
-
-.NetworkBottomPanel
-{
-	font-size: 27px;
-	margin-left: 0px;
-	height: 400px;
-	padding-top: 0px;
-}
-
-.NetworkSignalBase
-{
-	width: 43px;
-	height: 30px;
-	horizontal-align: right;
-}
-
-.WiredDevicePresent #WiredAvailable
-{
-	visibility: visible;
-}
-
-.NetworkSignalStrength1 .NetworkSignalBase
-{
-	opacity: 1.0;
-	background-image: url( "file://{images}/settings/icon_wireless1.png" );
-}
-
-.NetworkSignalStrength2 .NetworkSignalBase
-{
-	opacity: 1.0;
-	background-image: url( "file://{images}/settings/icon_wireless2.png" );
-}
-
-.NetworkSignalStrength3 .NetworkSignalBase
-{
-	opacity: 1.0;
-	background-image: url( "file://{images}/settings/icon_wireless3.png" );
-}
-
-.AvailableNetwork:descendantfocus .NetworkLockBase,
-.AvallableNetwork:descendantfocus .NetworkSignalBase,
-.AvailableNetwork:descendantfocus .NetworkWiredPluggedIn,
-.AvailableNetwork:descendantfocus .NetworkConnectionStatus,
-.AvailableNetwork:descendantfocus .NetworkConnectedBase
-{
-	opacity: 1.0;
-	wash-color: applabelselectedsolid;  
-}
-
-.StrengthWrapper
-{
-	margin: 10px 0px 10px 0px;
-}
-
-#WiredIcon
-{
-	background-image: url( "file://{images}/settings/icon_wired_disabled.png" );
-}
-
-.WiredDevicePluggedIn #WiredIcon
-{
-	background-image: url( "file://{images}/settings/icon_wired_enabled.png" );
-}
-
-#WiredConnected
-{
-	visibility: collapse;
-}
-
-#WiredUnplugged
-{
-	visibility: visible;
-}
-
-#WiredPluggedIn
-{
-	visibility: collapse;
-}
-
-.WiredDevicePluggedIn #WiredUnplugged
-{
-	visibility: collapse;
-}
-
-.WiredDevicePluggedIn #WiredPluggedIn
-{
-	visibility: visible;
-}
-
-.WiredDeviceConnected #WiredConnected
-{
-	visibility: visible;
-}
-
-.WiredDeviceConnected #WiredPluggedIn,
-.WiredDeviceConnected #WiredUnplugged
-{
-	visibility: collapse;
-}
-
-#WirelessConnected
-{
-	visibility: collapse;
-}
-
-#WirelessCardNotFound
-{
-	visibility: visible;
-}
-
-#WirelessCardFound
-{
-	visibility: collapse;
-}
-
-.WirelessDevicePresent #WirelessCardNotFound,
-.WirelessDeviceConnected #WirelessCardNotFound
-{
-	visibility: collapse;
-}
-
-.WirelessDevicePresent #WirelessCardFound
-{
-	visibility: visible;
-}
-
-.WirelessDeviceConnected #WirelessConnected
-{
-	visibility: visible;
-}
-
-.WirelessDeviceConnected #WirelessCardFound
-{
-	visibility: collapse;
-}
-
-.NetworkConnectedBase
-{
-	width: 32px;
-	height: 32px;
-	horizontal-align: right;
-	margin-right: 100px;
-}
-
-.NetworkConnectedCheck #NetworkConnected
-{
-	background-image: url( "file://{images}/store/Icon_CheckDefault.png" );
-}
-
-.NetworkCustomIPSettings
-{
-	opacity: 1.0;
-}
-
-.NetworkSettingsIPBottomPanel
-{
-	margin-left: 0px;
-	margin-top: 20px;
-	height: 480px;
-}
-
-.NetworkSettingsIPSettingsLegend,
-.NetworkSettingsIPLongDesc
-{
-	font-size: 24px;
-}
-
-.NetworkThrobber
-{
-	opacity: 1.0;
-	width: 30px;
-	height: 30px;
-	horizontal-align: right;
-}
-
-.NetworkConnectionComplete .NetworkThrobber
-{
-	opacity: 0.0;
-}
-
-.NetworkCustomIPSettings_disabled
-{
-	opacity: 0.0;
-	
-	transition-property: opacity;
-	transition-duration: 0.2s;
-	transition-timing-function: bigpicture-ease-in-out;
-}
-
-#NetworkDeviceStatus
-{	
-}
-
-.NetworkName
-{
-	font-size: 24px;
-	font-family: platformfont;
-	width: 575px;
-}
-
-.DeviceName
-{
-	font-size: 22px;
-	max-width: 560px;
-	padding-left: 5px;
-	padding-top: 2px;
-	color: applabelsolid;
-}
-
-.AvailableNetworkSelected .NetworkName
-{
-	color: applabelsolid;
-}
-
-.AvailableNetworkSelected:focus .NetworkName
-{
-	color: applabelselectedsolid;
-}
-
-
-.NetworkPasswordTextEntry,
-.SettingsNetwork_SSID_Other_class
-{
-	width: 50%;
-	height: 48px;
-	background-color: ui_common_control;
-}
-
-// If the password control has focus and caplock is on
-.SettingsNetwork_IPv4Format
-{
-	opacity: 0.5;
-}
-
-.HasInput .SettingsNetwork_IPv4Format
-{
-	opacity: 0.0;
-}
-
-#ShowPasswordToggle
-{
-	margin: 0px 5px 0px 10px;
-	width: 48px;
-	height: 48px;
-	border-color: ui_common_control_border;
-	border-width: 5px;
-}
-
-#ShowPasswordToggle:focus
-{
-	margin: 0px 5px 0px 10px;
-	width: 48px;
-	height: 48px;
-	border-color: #ffffff;
-	border-width: 5px;
-}
-
-#ShowPasswordLabel
-{
-	margin: 10px 0px;
-	width: 420px;
-}
-
-SettingsPanelNetwork_Credentials #ShowPasswordLabel
-{
- 	margin-left: 60px;
-}
-
-#ConnectPanel
-{
-	horizontal-align: left;
-	margin: 20px 0px;
-}
-
-#CustomSSID_Edit .WizardTextEntry
-{
-	margin-left: 10px;
+/*-----------------------------------------------------------------------------
+
+	-	Revolution Slider 4.1 Captions -
+
+		Screen Stylesheet
+
+version:   	1.4.5
+date:      	27/11/13
+author:		themepunch
+email:     	info@themepunch.com
+website:   	http://www.themepunch.com
+-----------------------------------------------------------------------------*/
+
+
+
+/*************************
+	-	CAPTIONS	-
+**************************/
+
+.tp-static-layers	{	position:absolute; z-index:505; top:0px;left:0px}
+
+.tp-hide-revslider,.tp-caption.tp-hidden-caption	{	visibility:hidden !important; display:none !important}
+
+
+.tp-caption { z-index:1; white-space:nowrap}
+
+.tp-caption-demo .tp-caption	{	position:relative !important; display:inline-block; margin-bottom:10px; margin-right:20px !important}
+
+
+.tp-caption.whitedivider3px {
+
+	color: #000000;
+	text-shadow: none;
+	background-color: rgb(255, 255, 255);
+	background-color: rgba(255, 255, 255, 1);
+	text-decoration: none;
+	min-width: 408px;
+	min-height: 3px;
+	background-position: initial initial;
+	background-repeat: initial initial;
+	border-width: 0px;
+	border-color: #000000;
+	border-style: none;
+}
+
+
+.tp-caption.finewide_large_white {
+color:#ffffff;
+text-shadow:none;
+font-size:60px;
+line-height:60px;
+font-weight:300;
+font-family:"Open Sans", sans-serif;
+background-color:transparent;
+text-decoration:none;
+text-transform:uppercase;
+letter-spacing:8px;
+border-width:0px;
+border-color:rgb(0, 0, 0);
+border-style:none;
+}
+
+.tp-caption.whitedivider3px {
+color:#000000;
+text-shadow:none;
+background-color:rgb(255, 255, 255);
+background-color:rgba(255, 255, 255, 1);
+text-decoration:none;
+font-size:0px;
+line-height:0;
+min-width:468px;
+min-height:3px;
+border-width:0px;
+border-color:rgb(0, 0, 0);
+border-style:none;
+}
+
+.tp-caption.finewide_medium_white {
+color:#ffffff;
+text-shadow:none;
+font-size:37px;
+line-height:37px;
+font-weight:300;
+font-family:"Open Sans", sans-serif;
+background-color:transparent;
+text-decoration:none;
+text-transform:uppercase;
+letter-spacing:5px;
+border-width:0px;
+border-color:rgb(0, 0, 0);
+border-style:none;
+}
+
+.tp-caption.boldwide_small_white {
+font-size:25px;
+line-height:25px;
+font-weight:800;
+font-family:"Open Sans", sans-serif;
+color:rgb(255, 255, 255);
+text-decoration:none;
+background-color:transparent;
+text-shadow:none;
+text-transform:uppercase;
+letter-spacing:5px;
+border-width:0px;
+border-color:rgb(0, 0, 0);
+border-style:none;
+}
+
+.tp-caption.whitedivider3px_vertical {
+color:#000000;
+text-shadow:none;
+background-color:rgb(255, 255, 255);
+background-color:rgba(255, 255, 255, 1);
+text-decoration:none;
+font-size:0px;
+line-height:0;
+min-width:3px;
+min-height:130px;
+border-width:0px;
+border-color:rgb(0, 0, 0);
+border-style:none;
+}
+
+.tp-caption.finewide_small_white {
+color:#ffffff;
+text-shadow:none;
+font-size:25px;
+line-height:25px;
+font-weight:300;
+font-family:"Open Sans", sans-serif;
+background-color:transparent;
+text-decoration:none;
+text-transform:uppercase;
+letter-spacing:5px;
+border-width:0px;
+border-color:rgb(0, 0, 0);
+border-style:none;
+}
+
+.tp-caption.finewide_verysmall_white_mw {
+font-size:13px;
+line-height:25px;
+font-weight:400;
+font-family:"Open Sans", sans-serif;
+color:#ffffff;
+text-decoration:none;
+background-color:transparent;
+text-shadow:none;
+text-transform:uppercase;
+letter-spacing:5px;
+max-width:470px;
+white-space:normal !important;
+border-width:0px;
+border-color:rgb(0, 0, 0);
+border-style:none;
+}
+
+.tp-caption.lightgrey_divider {
+text-decoration:none;
+background-color:rgb(235, 235, 235);
+background-color:rgba(235, 235, 235, 1);
+width:370px;
+height:3px;
+background-position:initial initial;
+background-repeat:initial initial;
+border-width:0px;
+border-color:rgb(34, 34, 34);
+border-style:none;
+}
+
+.tp-caption.finewide_large_white {
+color: #FFF;
+text-shadow: none;
+font-size: 60px;
+line-height: 60px;
+font-weight: 300;
+font-family: "Open Sans", sans-serif;
+background-color: rgba(0, 0, 0, 0);
+text-decoration: none;
+text-transform: uppercase;
+letter-spacing: 8px;
+border-width: 0px;
+border-color: #000;
+border-style: none;
+}
+
+.tp-caption.finewide_medium_white {
+color: #FFF;
+text-shadow: none;
+font-size: 34px;
+line-height: 34px;
+font-weight: 300;
+font-family: "Open Sans", sans-serif;
+background-color: rgba(0, 0, 0, 0);
+text-decoration: none;
+text-transform: uppercase;
+letter-spacing: 5px;
+border-width: 0px;
+border-color: #000;
+border-style: none;
+}
+
+.tp-caption.huge_red {
+position:absolute;
+color:rgb(223,75,107);
+font-weight:400;
+font-size:150px;
+line-height:130px;
+font-family: 'Oswald', sans-serif;
+margin:0px;
+border-width:0px;
+border-style:none;
+white-space:nowrap;
+background-color:rgb(45,49,54);
+padding:0px;
+}
+
+.tp-caption.middle_yellow {
+position:absolute;
+color:rgb(251,213,114);
+font-weight:600;
+font-size:50px;
+line-height:50px;
+font-family: 'Open Sans', sans-serif;
+margin:0px;
+border-width:0px;
+border-style:none;
+white-space:nowrap;
+}
+
+.tp-caption.huge_thin_yellow {
+	position:absolute;
+color:rgb(251,213,114);
+font-weight:300;
+font-size:90px;
+line-height:90px;
+font-family: 'Open Sans', sans-serif;
+margin:0px;
+letter-spacing: 20px;
+border-width:0px;
+border-style:none;
+white-space:nowrap;
+}
+
+.tp-caption.big_dark {
+position:absolute;
+color:#333;
+font-weight:700;
+font-size:70px;
+line-height:70px;
+font-family:"Open Sans";
+margin:0px;
+border-width:0px;
+border-style:none;
+white-space:nowrap;
+}
+
+.tp-caption.medium_dark {
+position:absolute;
+color:#333;
+font-weight:300;
+font-size:40px;
+line-height:40px;
+font-family:"Open Sans";
+margin:0px;
+letter-spacing: 5px;
+border-width:0px;
+border-style:none;
+white-space:nowrap;
+}
+
+
+.tp-caption.medium_grey {
+position:absolute;
+color:#fff;
+text-shadow:0px 2px 5px rgba(0, 0, 0, 0.5);
+font-weight:700;
+font-size:20px;
+line-height:20px;
+font-family:Arial;
+padding:2px 4px;
+margin:0px;
+border-width:0px;
+border-style:none;
+background-color:#888;
+white-space:nowrap;
+}
+
+.tp-caption.small_text {
+position:absolute;
+color:#fff;
+text-shadow:0px 2px 5px rgba(0, 0, 0, 0.5);
+font-weight:700;
+font-size:14px;
+line-height:20px;
+font-family:Arial;
+margin:0px;
+border-width:0px;
+border-style:none;
+white-space:nowrap;
+}
+
+.tp-caption.medium_text {
+position:absolute;
+color:#fff;
+text-shadow:0px 2px 5px rgba(0, 0, 0, 0.5);
+font-weight:700;
+font-size:20px;
+line-height:20px;
+font-family:Arial;
+margin:0px;
+border-width:0px;
+border-style:none;
+white-space:nowrap;
+}
+
+
+.tp-caption.large_bold_white_25 {
+font-size:55px;
+line-height:65px;
+font-weight:700;
+font-family:"Open Sans";
+color:#fff;
+text-decoration:none;
+background-color:transparent;
+text-align:center;
+text-shadow:#000 0px 5px 10px;
+border-width:0px;
+border-color:rgb(255, 255, 255);
+border-style:none;
+}
+
+.tp-caption.medium_text_shadow {
+font-size:25px;
+line-height:25px;
+font-weight:600;
+font-family:"Open Sans";
+color:#fff;
+text-decoration:none;
+background-color:transparent;
+text-align:center;
+text-shadow:#000 0px 5px 10px;
+border-width:0px;
+border-color:rgb(255, 255, 255);
+border-style:none;
+}
+
+.tp-caption.large_text {
+position:absolute;
+color:#fff;
+text-shadow:0px 2px 5px rgba(0, 0, 0, 0.5);
+font-weight:700;
+font-size:40px;
+line-height:40px;
+font-family:Arial;
+margin:0px;
+border-width:0px;
+border-style:none;
+white-space:nowrap;
+}
+
+.tp-caption.medium_bold_grey {
+font-size:30px;
+line-height:30px;
+font-weight:800;
+font-family:"Open Sans";
+color:rgb(102, 102, 102);
+text-decoration:none;
+background-color:transparent;
+text-shadow:none;
+margin:0px;
+padding:1px 4px 0px;
+border-width:0px;
+border-color:rgb(255, 214, 88);
+border-style:none;
+}
+
+.tp-caption.very_large_text {
+position:absolute;
+color:#fff;
+text-shadow:0px 2px 5px rgba(0, 0, 0, 0.5);
+font-weight:700;
+font-size:60px;
+line-height:60px;
+font-family:Arial;
+margin:0px;
+border-width:0px;
+border-style:none;
+white-space:nowrap;
+letter-spacing:-2px;
+}
+
+.tp-caption.very_big_white {
+position:absolute;
+color:#fff;
+text-shadow:none;
+font-weight:800;
+font-size:60px;
+line-height:60px;
+font-family:Arial;
+margin:0px;
+border-width:0px;
+border-style:none;
+white-space:nowrap;
+padding:0px 4px;
+padding-top:1px;
+background-color:#000;
+}
+
+.tp-caption.very_big_black {
+position:absolute;
+color:#000;
+text-shadow:none;
+font-weight:700;
+font-size:60px;
+line-height:60px;
+font-family:Arial;
+margin:0px;
+border-width:0px;
+border-style:none;
+white-space:nowrap;
+padding:0px 4px;
+padding-top:1px;
+background-color:#fff;
+}
+
+.tp-caption.modern_medium_fat {
+position:absolute;
+color:#000;
+text-shadow:none;
+font-weight:800;
+font-size:24px;
+line-height:20px;
+font-family:"Open Sans", sans-serif;
+margin:0px;
+border-width:0px;
+border-style:none;
+white-space:nowrap;
+}
+
+.tp-caption.modern_medium_fat_white {
+position:absolute;
+color:#fff;
+text-shadow:none;
+font-weight:800;
+font-size:24px;
+line-height:20px;
+font-family:"Open Sans", sans-serif;
+margin:0px;
+border-width:0px;
+border-style:none;
+white-space:nowrap;
+}
+
+.tp-caption.modern_medium_light {
+position:absolute;
+color:#000;
+text-shadow:none;
+font-weight:300;
+font-size:24px;
+line-height:20px;
+font-family:"Open Sans", sans-serif;
+margin:0px;
+border-width:0px;
+border-style:none;
+white-space:nowrap;
+}
+
+.tp-caption.modern_big_bluebg {
+position:absolute;
+color:#fff;
+text-shadow:none;
+font-weight:800;
+font-size:30px;
+line-height:36px;
+font-family:"Open Sans", sans-serif;
+padding:3px 10px;
+margin:0px;
+border-width:0px;
+border-style:none;
+background-color:#4e5b6c;
+letter-spacing:0;
+}
+
+.tp-caption.modern_big_redbg {
+position:absolute;
+color:#fff;
+text-shadow:none;
+font-weight:300;
+font-size:30px;
+line-height:36px;
+font-family:"Open Sans", sans-serif;
+padding:3px 10px;
+padding-top:1px;
+margin:0px;
+border-width:0px;
+border-style:none;
+background-color:#de543e;
+letter-spacing:0;
+}
+
+.tp-caption.modern_small_text_dark {
+position:absolute;
+color:#555;
+text-shadow:none;
+font-size:14px;
+line-height:22px;
+font-family:Arial;
+margin:0px;
+border-width:0px;
+border-style:none;
+white-space:nowrap;
+}
+
+.tp-caption.boxshadow {
+-moz-box-shadow:0px 0px 20px rgba(0, 0, 0, 0.5);
+-webkit-box-shadow:0px 0px 20px rgba(0, 0, 0, 0.5);
+box-shadow:0px 0px 20px rgba(0, 0, 0, 0.5);
+}
+
+.tp-caption.black {
+color:#000;
+text-shadow:none;
+}
+
+.tp-caption.noshadow {
+text-shadow:none;
+}
+
+.tp-caption a {
+color:#ff7302;
+text-shadow:none;
+-webkit-transition:all 0.2s ease-out;
+-moz-transition:all 0.2s ease-out;
+-o-transition:all 0.2s ease-out;
+-ms-transition:all 0.2s ease-out;
+}
+
+.tp-caption a:hover {
+color:#ffa902;
+}
+
+.tp-caption.thinheadline_dark {
+position:absolute;
+color:rgba(0,0,0,0.85);
+text-shadow:none;
+font-weight:300;
+font-size:30px;
+line-height:30px;
+font-family:"Open Sans";
+background-color:transparent;
+}
+
+.tp-caption.thintext_dark {
+position:absolute;
+color:rgba(0,0,0,0.85);
+text-shadow:none;
+font-weight:300;
+font-size:16px;
+line-height:26px;
+font-family:"Open Sans";
+background-color:transparent;
+}
+
+.tp-caption.medium_bg_red a {
+	color: #fff;
+    text-decoration: none;
+}
+
+.tp-caption.medium_bg_red a:hover {
+	color: #fff;
+    text-decoration: underline;
+}
+
+.tp-caption.smoothcircle {
+font-size:30px;
+line-height:75px;
+font-weight:800;
+font-family:"Open Sans";
+color:rgb(255, 255, 255);
+text-decoration:none;
+background-color:rgb(0, 0, 0);
+background-color:rgba(0, 0, 0, 0.498039);
+padding:50px 25px;
+text-align:center;
+border-radius:500px 500px 500px 500px;
+border-width:0px;
+border-color:rgb(0, 0, 0);
+border-style:none;
+}
+
+.tp-caption.largeblackbg {
+font-size:50px;
+line-height:70px;
+font-weight:300;
+font-family:"Open Sans";
+color:rgb(255, 255, 255);
+text-decoration:none;
+background-color:rgb(0, 0, 0);
+padding:0px 20px 5px;
+text-shadow:none;
+border-width:0px;
+border-color:rgb(255, 255, 255);
+border-style:none;
+}
+
+.tp-caption.largepinkbg {
+position:absolute;
+color:#fff;
+text-shadow:none;
+font-weight:300;
+font-size:50px;
+line-height:70px;
+font-family:"Open Sans";
+background-color:#db4360;
+padding:0px 20px;
+-webkit-border-radius:0px;
+-moz-border-radius:0px;
+border-radius:0px;
+}
+
+.tp-caption.largewhitebg {
+position:absolute;
+color:#000;
+text-shadow:none;
+font-weight:300;
+font-size:50px;
+line-height:70px;
+font-family:"Open Sans";
+background-color:#fff;
+padding:0px 20px;
+-webkit-border-radius:0px;
+-moz-border-radius:0px;
+border-radius:0px;
+}
+
+.tp-caption.largegreenbg {
+position:absolute;
+color:#fff;
+text-shadow:none;
+font-weight:300;
+font-size:50px;
+line-height:70px;
+font-family:"Open Sans";
+background-color:#67ae73;
+padding:0px 20px;
+-webkit-border-radius:0px;
+-moz-border-radius:0px;
+border-radius:0px;
+}
+
+.tp-caption.excerpt {
+font-size:36px;
+line-height:36px;
+font-weight:700;
+font-family:Arial;
+color:#ffffff;
+text-decoration:none;
+background-color:rgba(0, 0, 0, 1);
+text-shadow:none;
+margin:0px;
+letter-spacing:-1.5px;
+padding:1px 4px 0px 4px;
+width:150px;
+white-space:normal !important;
+height:auto;
+border-width:0px;
+border-color:rgb(255, 255, 255);
+border-style:none;
+}
+
+.tp-caption.large_bold_grey {
+font-size:60px;
+line-height:60px;
+font-weight:800;
+font-family:"Open Sans";
+color:rgb(102, 102, 102);
+text-decoration:none;
+background-color:transparent;
+text-shadow:none;
+margin:0px;
+padding:1px 4px 0px;
+border-width:0px;
+border-color:rgb(255, 214, 88);
+border-style:none;
+}
+
+.tp-caption.medium_thin_grey {
+font-size:34px;
+line-height:30px;
+font-weight:300;
+font-family:"Open Sans";
+color:rgb(102, 102, 102);
+text-decoration:none;
+background-color:transparent;
+padding:1px 4px 0px;
+text-shadow:none;
+margin:0px;
+border-width:0px;
+border-color:rgb(255, 214, 88);
+border-style:none;
+}
+
+.tp-caption.small_thin_grey {
+font-size:18px;
+line-height:26px;
+font-weight:300;
+font-family:"Open Sans";
+color:rgb(117, 117, 117);
+text-decoration:none;
+background-color:transparent;
+padding:1px 4px 0px;
+text-shadow:none;
+margin:0px;
+border-width:0px;
+border-color:rgb(255, 214, 88);
+border-style:none;
+}
+
+.tp-caption.lightgrey_divider {
+text-decoration:none;
+background-color:rgba(235, 235, 235, 1);
+width:370px;
+height:3px;
+background-position:initial initial;
+background-repeat:initial initial;
+border-width:0px;
+border-color:rgb(34, 34, 34);
+border-style:none;
+}
+
+.tp-caption.large_bold_darkblue {
+font-size:58px;
+line-height:60px;
+font-weight:800;
+font-family:"Open Sans";
+color:rgb(52, 73, 94);
+text-decoration:none;
+background-color:transparent;
+border-width:0px;
+border-color:rgb(255, 214, 88);
+border-style:none;
+}
+
+.tp-caption.medium_bg_darkblue {
+font-size:20px;
+line-height:20px;
+font-weight:800;
+font-family:"Open Sans";
+color:rgb(255, 255, 255);
+text-decoration:none;
+background-color:rgb(52, 73, 94);
+padding:10px;
+border-width:0px;
+border-color:rgb(255, 214, 88);
+border-style:none;
+}
+
+.tp-caption.medium_bold_red {
+font-size:24px;
+line-height:30px;
+font-weight:800;
+font-family:"Open Sans";
+color:rgb(227, 58, 12);
+text-decoration:none;
+background-color:transparent;
+padding:0px;
+border-width:0px;
+border-color:rgb(255, 214, 88);
+border-style:none;
+}
+
+.tp-caption.medium_light_red {
+font-size:21px;
+line-height:26px;
+font-weight:300;
+font-family:"Open Sans";
+color:rgb(227, 58, 12);
+text-decoration:none;
+background-color:transparent;
+padding:0px;
+border-width:0px;
+border-color:rgb(255, 214, 88);
+border-style:none;
+}
+
+.tp-caption.medium_bg_red {
+font-size:20px;
+line-height:20px;
+font-weight:800;
+font-family:"Open Sans";
+color:rgb(255, 255, 255);
+text-decoration:none;
+background-color:rgb(227, 58, 12);
+padding:10px;
+border-width:0px;
+border-color:rgb(255, 214, 88);
+border-style:none;
+}
+
+.tp-caption.medium_bold_orange {
+font-size:24px;
+line-height:30px;
+font-weight:800;
+font-family:"Open Sans";
+color:rgb(243, 156, 18);
+text-decoration:none;
+background-color:transparent;
+border-width:0px;
+border-color:rgb(255, 214, 88);
+border-style:none;
+}
+
+.tp-caption.medium_bg_orange {
+font-size:20px;
+line-height:20px;
+font-weight:800;
+font-family:"Open Sans";
+color:rgb(255, 255, 255);
+text-decoration:none;
+background-color:rgb(243, 156, 18);
+padding:10px;
+border-width:0px;
+border-color:rgb(255, 214, 88);
+border-style:none;
+}
+
+.tp-caption.grassfloor {
+text-decoration:none;
+background-color:rgba(160, 179, 151, 1);
+width:4000px;
+height:150px;
+border-width:0px;
+border-color:rgb(34, 34, 34);
+border-style:none;
+}
+
+.tp-caption.large_bold_white {
+font-size:58px;
+line-height:60px;
+font-weight:800;
+font-family:"Open Sans";
+color:rgb(255, 255, 255);
+text-decoration:none;
+background-color:transparent;
+border-width:0px;
+border-color:rgb(255, 214, 88);
+border-style:none;
+}
+
+.tp-caption.medium_light_white {
+font-size:30px;
+line-height:36px;
+font-weight:300;
+font-family:"Open Sans";
+color:rgb(255, 255, 255);
+text-decoration:none;
+background-color:transparent;
+padding:0px;
+border-width:0px;
+border-color:rgb(255, 214, 88);
+border-style:none;
+}
+
+.tp-caption.mediumlarge_light_white {
+font-size:34px;
+line-height:40px;
+font-weight:300;
+font-family:"Open Sans";
+color:rgb(255, 255, 255);
+text-decoration:none;
+background-color:transparent;
+padding:0px;
+border-width:0px;
+border-color:rgb(255, 214, 88);
+border-style:none;
+}
+
+.tp-caption.mediumlarge_light_white_center {
+font-size:34px;
+line-height:40px;
+font-weight:300;
+font-family:"Open Sans";
+color:#ffffff;
+text-decoration:none;
+background-color:transparent;
+padding:0px 0px 0px 0px;
+text-align:center;
+border-width:0px;
+border-color:rgb(255, 214, 88);
+border-style:none;
+}
+
+.tp-caption.medium_bg_asbestos {
+font-size:20px;
+line-height:20px;
+font-weight:800;
+font-family:"Open Sans";
+color:rgb(255, 255, 255);
+text-decoration:none;
+background-color:rgb(127, 140, 141);
+padding:10px;
+border-width:0px;
+border-color:rgb(255, 214, 88);
+border-style:none;
+}
+
+.tp-caption.medium_light_black {
+font-size:30px;
+line-height:36px;
+font-weight:300;
+font-family:"Open Sans";
+color:rgb(0, 0, 0);
+text-decoration:none;
+background-color:transparent;
+padding:0px;
+border-width:0px;
+border-color:rgb(255, 214, 88);
+border-style:none;
+}
+
+.tp-caption.large_bold_black {
+font-size:58px;
+line-height:60px;
+font-weight:800;
+font-family:"Open Sans";
+color:rgb(0, 0, 0);
+text-decoration:none;
+background-color:transparent;
+border-width:0px;
+border-color:rgb(255, 214, 88);
+border-style:none;
+}
+
+.tp-caption.mediumlarge_light_darkblue {
+font-size:34px;
+line-height:40px;
+font-weight:300;
+font-family:"Open Sans";
+color:rgb(52, 73, 94);
+text-decoration:none;
+background-color:transparent;
+padding:0px;
+border-width:0px;
+border-color:rgb(255, 214, 88);
+border-style:none;
+}
+
+.tp-caption.small_light_white {
+font-size:17px;
+line-height:28px;
+font-weight:300;
+font-family:"Open Sans";
+color:rgb(255, 255, 255);
+text-decoration:none;
+background-color:transparent;
+padding:0px;
+border-width:0px;
+border-color:rgb(255, 214, 88);
+border-style:none;
+}
+
+.tp-caption.roundedimage {
+border-width:0px;
+border-color:rgb(34, 34, 34);
+border-style:none;
+}
+
+.tp-caption.large_bg_black {
+font-size:40px;
+line-height:40px;
+font-weight:800;
+font-family:"Open Sans";
+color:rgb(255, 255, 255);
+text-decoration:none;
+background-color:rgb(0, 0, 0);
+padding:10px 20px 15px;
+border-width:0px;
+border-color:rgb(255, 214, 88);
+border-style:none;
+}
+
+.tp-caption.mediumwhitebg {
+font-size:30px;
+line-height:30px;
+font-weight:300;
+font-family:"Open Sans";
+color:rgb(0, 0, 0);
+text-decoration:none;
+background-color:rgb(255, 255, 255);
+padding:5px 15px 10px;
+text-shadow:none;
+border-width:0px;
+border-color:rgb(0, 0, 0);
+border-style:none;
+}
+
+.tp-caption.medium_bg_orange_new1 {
+font-size:20px;
+line-height:20px;
+font-weight:800;
+font-family:"Open Sans";
+color:rgb(255, 255, 255);
+text-decoration:none;
+background-color:rgb(243, 156, 18);
+padding:10px;
+border-width:0px;
+border-color:rgb(255, 214, 88);
+border-style:none;
+}
+
+
+
+.tp-caption.boxshadow{
+		-moz-box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+		-webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+		box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
 	}
 
-#ConnectToNetwork
-{
-	width: 235px;
-	padding: 5px 5px;
-	flow-children: right;
-}
-
-#ConnectToNetwork Label
-{
-	color: applabelsolid;
-	padding: 0px 0px 0px 0px;
-}
-
-#ConnectToNetwork:focus Label
-{
-	color: applabelselectedsolid;
-}
-
-.SingleMonitor .MonitorArea
-{
-	visibility: collapse;
-}
-
-.SettingsBottomPanel_NetworkSettings
-{
-	margin-left: 0px;
-	margin-right: 0px;
-	padding-left: 0px;
-}
-
-.SettingsNetwork_SSIDList
-{
-	width: 100%;
-	padding-left: 0px;
-	flow-children: down;
-}
-
-.SettingsNetwork_LeftButton
-{
-	width: 480px;
-	horizontal-align: left;
-	padding-left: 0px;
-	margin-bottom: 0px;
-	margin-right: 25px;
-}
-
-.SettingsNetwork_RightButton
-{
-	width: 480px;
-	horizontal-align: left;
-	padding-right: 0px;
-	margin-bottom: 0px;
-	margin-right: 25px;
-}
-
-.SettingsContent .SettingsNetwork_LeftButton .Button, 
-.SettingsContent .SettingsNetwork_RightButton .Button
-{
-	margin-right: 25px;
-}
-
-.NetworkSettingsRightPane
-{
-	width: 1005px;
-	vertical-align: bottom;
-	height: fit-children;
-	flow-children: right;
-	margin-top: 25px;
-	margin-bottom: 0px;
-}
-
-.NetworkThrobber
-{
-	width: 100px;
-	height: 100px;
-	margin-top: 250px;
-	horizontal-align: center;
-	margin-left: 50px;
-}
-	
-.CenteredContainer
-{
-	width: 1575px;
-	height: 500px;
-	flow-children: down;
-}	
-
-#network_connect #ConnectionStatus
-{
-	width: 100%;
-	text-align: center;
-	transform: translateX( 0px );
-	margin-top: 20px;
-	color: #66c0f4;
-	font-size: 28px;
-}
-
-#network_ipsettings .RadioButton Label
-{
-	margin-top: 0px;	
-	padding-top: 4px;
-}
-
-#SettingsNetwork_Wired_Enabled,
-#SettingsNetwork_WiFi_Enabled,
-#SettingsNetwork_WiFi_Details,
-#SettingsNetwork_WAP_SecurityRequired,
-#SettingsNetwork_WAP_Open,
-#ChooseSSID_Edit,
-.NetworkForgotten
-{
-	visibility: collapse;
-	flow-children: down;
-}
-
-.NetworkWired #SettingsNetwork_Wired_Enabled,
-.NetworkWiFi #SettingsNetwork_WiFi_Enabled,
-.NetworkWiFiDetails #SettingsNetwork_WiFi_Details,
-.NetworkWiFiSecurityOn #SettingsNetwork_WAP_SecurityRequired,
-.NetworkWiFiSecurityOff #SettingsNetwork_WAP_Open,
-.NetworkWiFiChooseSSID #ChooseSSID_Edit,
-.NetworkForgettable
-{
-	visibility: visible;
-}
-
-
-.SettingsNetwork_CustomIP_Text
-{
-	padding-top: 14px;
-	margin-left: 15px;
-	width: 900px;
-}
-
-.ResLabel
-{
-	width: 300px;
-	color: tcstatictext;
-	text-align: left;
-	padding-right: 20px;
-}
-
-.ResBody
-{
-	color: applabelsolid;	
-}
-
-.SettingsBody
-{
-	font-size: 36px;
-	color: #b0b4b7;
-	font-weight: light;
-}
-
-#SurfaceSizeWrapper, #WindowSizeWrapper, #GPUInfoWrapper
-{
-	flow-children: right;
-	height: 40px;
-}
-
-#GPUInfoWrapper
-{
-	height: 40px;
-}
-
-#GPUInfoValue
-{
-	white-space: normal;
-	width: 440px;
-}
-
-.SettingsCallout
-{
-	margin: 4px 0px 12px 0px;
-	color: tcstatictext;
-}
-
-.SettingsContained .SettingsCallout
-{
-	visibility: collapse;
-}
-
-#CurrentResWrapper
-{
-	margin-top: 8px;
-	margin-bottom: 16px;
-	flow-children: down;
-}
-
-#CurrentResWrapper .SettingsCallout
-{
-	margin: 0px;
-}
-
-.SteamOS.Linux #ResolutionArea
-{
-	visibility: collapse;
-}
-
-#SteamOSSettingsArea
-{
-	visibility: collapse;
-}
-
-.SteamOS.Linux #SteamOSSettingsArea
-{
-	visibility: visible;
-}
-
-.HorzContainer
-{
-	vertical-align: top;
-	horizontal-align: left;
-}
-
-.HorzContainerLeft
-{
-	flow-children: right;
-	vertical-align: top;
-	horizontal-align: left;
-	margin-bottom: 20px;
-}
-
-.VertContainer
-{
-	flow-children: down;
-	vertical-align: top;
-	horizontal-align: left;
-}
-
-.HorzSub
-{
-	flow-children: right;
-	vertical-align: center;
-	// leave room for content to grow
-	margin-bottom: 10px;
-}
-
-.HorzSub Image,.HorzSub Button,.HorzSub .CheckBox,.HorzSub Label,.HorzSub KeyboardShortcut
-{
-	vertical-align: center;
-	wash-color: none;
-	margin-right: 2px;
-	margin-left: 0px;
-	color: applabelsolid;
-}
-
-.HorzLabelDropdown
-{
-	flow-children: right;
-	// leave room for content to grow
-	margin-bottom: 0px;
-	margin-top: 10px;
-	margin-right: 0px;
-}
-
-#Settings_Downloads .HorzLabelDropdown 
-{
-	width: 475px;
-}
-
-
-.TimeRestrictionDropdown, .TimeRestrictionDropdown:hover
-{
-	width: 230px;
-	horizontal-align: right;
-	opacity: 1.0;
-	saturation: 1.0;
-	blur: none;
-	transition-property: opacity, blur, saturation, pre-transform-scale2d, box-shadow;
-	transition-duration: SettingsPanelTransitionDuration;
-	transition-timing-function: ease-in;
-}
-
-.TimeRestrictionDropdown:disabled,.TimeRestrictionDropdown:disabled:hover, #SettingsDownloads_ToggleTimeLimits:selected .SettingsCalloutSnugRight
-{
-	opacity: 0.5;
-	saturation: 0.5;
-	blur: gaussian( 1.0 );
-	pre-transform-scale2d: 1.0;
-	box-shadow: none;
-
-}
-
-DropDownMenu
-{
-	width: 575px;
-}
-
-.SettingsGroup
-{
-	flow-children: down;
-	horizontal-align: left;
-	margin: 0px 0px 16px 0px;
-	padding-top: 10px;
-	padding-right: 0px;
-}
-
-VUMeter
-{
-	horizontal-align: left;
-	margin-left: 0px;
-	margin-right: 0px;
-	margin-top: 0px;
-}
+.tp-caption.black{
+		color: #000;
+		text-shadow: none;
+		font-weight: 300;
+		font-size: 19px;
+		line-height: 19px;
+		font-family: 'Open Sans', sans;
+	}
 
-VUMeter
-{
-	margin: 10px;
-	margin-left: 0px;
-	margin-right: 3px;
-	width: 290px;
-}
-
-// apply effects to 'test microphone' subitems when not testing mic,
-// to indicate they are not alive
-
-.CheckBox:parentdisabled,VUMeter:parentdisabled,Label:parentdisabled,Image:parentdisabled,KeyboardShortcut:parentdisabled,.KeyboardShortcut:parentdisabled,#SettingsInterface_CustomSearchProviderURL:parentdisabled
-{
-	opacity: 0.6;
-	saturation: 0.0;
-	blur: gaussian( 1.0 );
-
-}
-
-#SettingsAccount_Beta
-{
-	width: 100%;
-}
-
-// toggle visibility of labels inside the 'test microphone' button
-// to indicate the selection state
-#TestMicrophone Label
-{
-	transition-property: opacity, transform;
-	transition-duration: SettingsPanelTransitionDuration;
-	transition-timing-function: ease-in;
-	margin-left: 4px;
-	margin-bottom: 2px;
-	margin-top: 0px;
-}
-
-#TestMicrophone Label.AltLabel
-{
-	visibility: collapse;
-}
-
+.tp-caption.noshadow {
+		text-shadow: none;
+	}
 
-#TestMicrophone:descendantfocus Label
-{
-	color: black;
-	transform: translateX( 7px );
-}
-
-#TestMicrophone:selected Label
-{
-	visibility: collapse;
-}
 
-#TestMicrophone:selected Label.AltLabel
-{
-	visibility: visible;
-}
+.tp_inner_padding	{	box-sizing:border-box;
+						-webkit-box-sizing:border-box;
+						-moz-box-sizing:border-box;
+						max-height:none !important;	}
 
-#TestMicrophone .TickBox
-{
-	visibility: collapse;
-}
 
-KeyboardShortcut,.KeyboardShortcut
-{
-	flow-children: right;
-	margin-top: 0px;
-	margin-bottom: 26px;
-	padding: 7px;
-	background-color: simplebutton;
-	transition-property: pre-transform-scale2d,color,background-color,blur;
-	transition-duration: 0.2s;
-	color: applabelsolid;
-	width: 500px;
-	border-width: 5px;
-	border-radius: 0px;
-	border-style: solid;
-	box-shadow: box_shadow_off_color -3px -3px 6px 6px;
-}
+/*.tp-caption			{	transform:none !important}*/
 
-.HorzSub KeyboardShortcut
-{
-	margin-bottom: 0px;
-}
 
-#InGameControllerScreenshotGamepad
-{
-    visibility: visible;
-}
+/*********************************
+	-	SPECIAL TP CAPTIONS -
+**********************************/
+.tp-caption .frontcorner		{
+										width: 0;
+										height: 0;
+										border-left: 40px solid transparent;
+										border-right: 0px solid transparent;
+										border-top: 40px solid #00A8FF;
+										position: absolute;left:-40px;top:0px;
+									}
 
-.SteamControllerPresent #InGameControllerScreenshotGamepad
-{
-	visibility: collapse;
-}
+.tp-caption .backcorner		{
+										width: 0;
+										height: 0;
+										border-left: 0px solid transparent;
+										border-right: 40px solid transparent;
+										border-bottom: 40px solid #00A8FF;
+										position: absolute;right:0px;top:0px;
+									}
 
-#InGameControllerScreenshotSteamController
-{
-	visibility: collapse;
-}
+.tp-caption .frontcornertop		{
+										width: 0;
+										height: 0;
+										border-left: 40px solid transparent;
+										border-right: 0px solid transparent;
+										border-bottom: 40px solid #00A8FF;
+										position: absolute;left:-40px;top:0px;
+									}
 
-.SteamControllerPresent #InGameControllerScreenshotSteamController
-{
-	visibility: visible;
-}
+.tp-caption .backcornertop		{
+										width: 0;
+										height: 0;
+										border-left: 0px solid transparent;
+										border-right: 40px solid transparent;
+										border-top: 40px solid #00A8FF;
+										position: absolute;right:0px;top:0px;
+									}
 
-#OverlayKey
-{
-	width: 475px;
-}
 
-#InGameControllerOverlay, #InGameControllerScreenshot
-{
-	background-color: none;
-	color: detailsdatalabel;
-	margin-top: 0px;
-	padding-top: 0px;
-}
+/***********************************************
+	-	SPECIAL ALTERNATIVE IMAGE SETTINGS	-
+***********************************************/
 
-#InGameControllerScreenshot
-{
-	margin-top: 8px;	
-}
+img.tp-slider-alternative-image	{	width:100%; height:auto;}
 
-KeyboardShortcut:focus
-{
-	border-color: white;
-	background-color: gradient( linear, -15% 0%, 100% 0%, from( #fdfdfd66 ), to( #bdbfbf66 ) );
-	color: black;
-	box-shadow: box_shadow_on_color -3px -3px 6px 6px;
-	
-	animation-name: main-button-glow-movement; 
-	animation-duration: 1.7s;
-	animation-delay: 0.0s;
-	animation-timing-function: bigpicture-ease-in-out;
-	animation-iteration-count: infinite;
-	animation-direction: normal;
-}
+/******************************
+	-	BUTTONS	-
+*******************************/
 
-KeyboardShortcut:selected
-{
-	pre-transform-scale2d: 1.04;
-	background-color: gradient( linear, -15% 0%, 100% 0%, from( #fdfdfdff ), to( #bdbfbfff ) );
-	color: black;
-}
+.tp-simpleresponsive .button				{	padding:6px 13px 5px; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; height:30px;
+												cursor:pointer;
+												color:#fff !important; text-shadow:0px 1px 1px rgba(0, 0, 0, 0.6) !important; font-size:15px; line-height:45px !important;
+												background:url(../images/gradient/g30.png) repeat-x top; font-family: arial, sans-serif; font-weight: bold; letter-spacing: -1px;
+											}
 
+.tp-simpleresponsive  .button.big			{	color:#fff; text-shadow:0px 1px 1px rgba(0, 0, 0, 0.6); font-weight:bold; padding:9px 20px; font-size:19px;  line-height:57px !important; background:url(../images/gradient/g40.png) repeat-x top}
 
 
-#ScreenshotKey
-{
-	width: 475px;
-}
+.tp-simpleresponsive  .purchase:hover,
+.tp-simpleresponsive  .button:hover,
+.tp-simpleresponsive  .button.big:hover		{	background-position:bottom, 15px 11px}
 
-#ScreenshotBtn
-{
-	width: fit-children;
-}
 
-#ScreenshotBtn:focus Label
-{
-	color: black;	
-}
 
+	@media only screen and (min-width: 768px) and (max-width: 959px) {
 
-KeyboardShortcut .Graphic
-{
-	margin-left: 5px;
-	margin-right: 2px;
-	wash-color: white;
-}
+	 }
 
-#ScreenshotBtn:descendantfocus KeyboardShortcut .Graphic
-{
-	wash-color: black;
-	opacity: 1.0;
-}
 
-.SettingsCalloutSnug
-{
-	margin-bottom: 4px;
-	margin-top: 8px;
-}
 
-.SettingsCalloutSnugRight
-{
-	text-align: right;
-	width: 230px;
-	opacity: 0.7;
-}
+	@media only screen and (min-width: 480px) and (max-width: 767px) {
+		.tp-simpleresponsive  .button	{	padding:4px 8px 3px; line-height:25px !important; font-size:11px !important;font-weight:normal;	}
+		.tp-simpleresponsive  a.button { -webkit-transition: none; -moz-transition: none; -o-transition: none; -ms-transition: none;	 }
 
-.SettingsRight
-{
-	horizontal-align: left;
 
-}
+	}
 
-#AudioSub VUMeter
-{
-	margin-right: 20px;
-}
+    @media only screen and (min-width: 0px) and (max-width: 479px) {
+		.tp-simpleresponsive  .button	{	padding:2px 5px 2px; line-height:20px !important; font-size:10px !important}
+		.tp-simpleresponsive  a.button { -webkit-transition: none; -moz-transition: none; -o-transition: none; -ms-transition: none;	 }
+	}
 
-.SettingsGameControllerIcon
-{
-	width: 48px;
-	height: 48px;
-	margin: -10px 4px 0px 0px;
-}
 
-.SettingsGameControllerImage
-{
-	width: 420px;
-	height: 300px;
-	background-repeat: space;
-	background-image: url("file://{images}/settings/controllermap.png");
-	margin-left: -20px;
-}
 
-.SettingsGameControllerButtonHighlight
-{
-	width: 48px;
-	height: 48px;
-	background-repeat: space;
-	background-image: url("file://{images}/settings/button_highlight.png");
-//	opacity: 0.0;
-}
 
-.SettingsController
-{
-	width: 1200px;
 
-}
+/*	BUTTON COLORS	*/
 
 
-.SettingsScreensaverPanels
-{
-	width: 100%;
-	margin-top: 0px;
-	//padding-bottom: 20px;
-	visibility: visible;
-}
 
-.SettingsScreensaverPanels_Dropdown
-{
-	horizontal-align: left;
-}
+.tp-simpleresponsive  .button.green, .tp-simpleresponsive  .button:hover.green,
+.tp-simpleresponsive  .purchase.green, .tp-simpleresponsive  .purchase:hover.green			{ background-color:#21a117; -webkit-box-shadow:  0px 3px 0px 0px #104d0b;        -moz-box-shadow:   0px 3px 0px 0px #104d0b;        box-shadow:   0px 3px 0px 0px #104d0b;  }
 
-#AddController
-{
-    visibility: collapse;
-}
 
-.SteamControllerDonglePresent #AddController
-{
-    visibility: visible;
-}
+.tp-simpleresponsive  .button.blue, .tp-simpleresponsive  .button:hover.blue,
+.tp-simpleresponsive  .purchase.blue, .tp-simpleresponsive  .purchase:hover.blue			{ background-color:#1d78cb; -webkit-box-shadow:  0px 3px 0px 0px #0f3e68;        -moz-box-shadow:   0px 3px 0px 0px #0f3e68;        box-shadow:   0px 3px 0px 0px #0f3e68}
 
-#SettingsSteamController_ShutdownTime_Panel
-{
-	width: 100%;
-	margin-top: 10px;
-	padding-bottom: 20px;
-	visibility: collapse;
-}
 
-#SettingsSteamController_ShutdownTime_Dropdown
-{
-	horizontal-align: left;
-}
+.tp-simpleresponsive  .button.red, .tp-simpleresponsive  .button:hover.red,
+.tp-simpleresponsive  .purchase.red, .tp-simpleresponsive  .purchase:hover.red				{ background-color:#cb1d1d; -webkit-box-shadow:  0px 3px 0px 0px #7c1212;        -moz-box-shadow:   0px 3px 0px 0px #7c1212;        box-shadow:   0px 3px 0px 0px #7c1212}
 
-.CanTurnOffController #SettingsSteamController_ShutdownTime_Panel
-{
-    visibility: visible;
-}
+.tp-simpleresponsive  .button.orange, .tp-simpleresponsive  .button:hover.orange,
+.tp-simpleresponsive  .purchase.orange, .tp-simpleresponsive  .purchase:hover.orange		{ background-color:#ff7700; -webkit-box-shadow:  0px 3px 0px 0px #a34c00;        -moz-box-shadow:   0px 3px 0px 0px #a34c00;        box-shadow:   0px 3px 0px 0px #a34c00}
 
-#SettingsController_TurnOffOnQuit {
-    visibility: collapse;
-}
+.tp-simpleresponsive  .button.darkgrey, .tp-simpleresponsive  .button.grey,
+.tp-simpleresponsive  .button:hover.darkgrey, .tp-simpleresponsive  .button:hover.grey,
+.tp-simpleresponsive  .purchase.darkgrey, .tp-simpleresponsive  .purchase:hover.darkgrey	{ background-color:#555; -webkit-box-shadow:  0px 3px 0px 0px #222;        -moz-box-shadow:   0px 3px 0px 0px #222;        box-shadow:   0px 3px 0px 0px #222}
 
-.CanTurnOffController #SettingsController_TurnOffOnQuit 
-{
-    visibility: visible;
-}
+.tp-simpleresponsive  .button.lightgrey, .tp-simpleresponsive  .button:hover.lightgrey,
+.tp-simpleresponsive  .purchase.lightgrey, .tp-simpleresponsive  .purchase:hover.lightgrey	{ background-color:#888; -webkit-box-shadow:  0px 3px 0px 0px #555;        -moz-box-shadow:   0px 3px 0px 0px #555;        box-shadow:   0px 3px 0px 0px #555}
 
-#GameControllerContent {
-    height: 100%;
-    visibility: visible;
-}
 
-.NonSteamControllerDetails .SteamControllerDetails
-{
-    visibility: collapse;
-}
 
-#CalibrateButton,
-#GenericJoystick
-{
-    visibility: collapse;
-}
+/****************************************************************
 
-.GenericJoystickSelected #GenericJoystick 
-{
-    visibility: visible;
-}
+	-	SET THE ANIMATION EVEN MORE SMOOTHER ON ANDROID   -
 
-.SettingsBindingsVisibile #GenericJoystick
-{
-    visibility: collapse;
-}
+******************************************************************/
 
-.CanBeCalibrated #CalibrateButton
-{
-    visibility: visible;
-}
+/*.tp-simpleresponsive				{	-webkit-perspective: 1500px;
+										-moz-perspective: 1500px;
+										-o-perspective: 1500px;
+										-ms-perspective: 1500px;
+										perspective: 1500px;
+									}*/
 
-.SettingsControllerName
-{
-	horizontal-align: left;
-	padding-left: 0px;
-	width: 800px;
-	margin: 4px 0px 12px 0px;
-	color: applabelsolid;
-}
 
-.SettingsControllerNameTitle
-{
-	horizontal-align: left;
-	padding-left: 0px;
-	width: 800px;
-	margin: 4px 0px 12px 0px;
-}
 
-.GeneratedSerial #RegisteredTitleText
-{
-    horizontal-align: left;
-    padding-left: 0px;
-    width: 800px;
-    margin: 4px 0px 12px 0px;
-    visibility: collapse;
-}
 
-.GeneratedSerial #ControllerName
-{
-    horizontal-align: left;
-    padding-left: 0px;
-    width: 800px;
-    margin: 4px 0px 12px 0px;
-    visibility: visible;
-}
+/**********************************************
+	-	FULLSCREEN AND FULLWIDHT CONTAINERS	-
+**********************************************/
 
-.SettingsControllerNameHeader
-{
-	horizontal-align: left;
-	padding-left: 15px;
-	width: 800px;
-	margin: 0px;
-	font-size: 35px;
-	color: white;
+.fullscreen-container {
+		width:100%;
+		position:relative;
+		padding:0;
 }
 
-#SettingsControllerNameType_Dropdown
-{
-    width: 230px;
-    max-height: 320px;
-}
 
-.SettingsControllerBatteryLabel
-{
-	horizontal-align: left;
-	padding-left: 15px;
-	width: 800px;
-	margin: 0px;
-	font-size: 25px;
-	margin-bottom: 25px;
-	color: white;
-}
 
-#NoControllersFoundPanel
-{
-	horizontal-align: left;
-	vertical-align: top;
-	padding-top: 30px;
-	width: 40%;
-	visibility: visible;
+.fullwidthbanner-container{
+	width:100%;
+	position:relative;
+	padding:0;
+	overflow:hidden;
 }
 
-.ControllerFound #NoControllersFoundPanel
-{
-	visibility: collapse;
+.fullwidthbanner-container .fullwidthbanner{
+	width:100%;
+	position:relative;
 }
 
-#NoControllersFoundLabel
-{
-	horizontal-align: left;
-	vertical-align: top;
-}
 
-.ControllerSettingsButton
-{
-	flow-children: right;
-	width: 600px;
-	visibility: collapse;
-}
 
-.DetectedControllers
-{
-	visibility: collapse;
+/************************************************
+	  - SOME CAPTION MODIFICATION AT START  -
+*************************************************/
+.tp-simpleresponsive .caption,
+.tp-simpleresponsive .tp-caption {
+	/*-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";		-moz-opacity: 0;	-khtml-opacity: 0;	opacity: 0; */
+	position:absolute;visibility: hidden;
+	-webkit-font-smoothing: antialiased !important;
 }
 
-.ControllerFound .DetectedControllers
-{
-	visibility: visible;
-}
 
-.ControllerAvailable
-{
-	visibility: visible;
-}
+.tp-simpleresponsive img	{	max-width:none}
 
-#SteamControllerVersion
-{
-	horizontal-align: left;
-	vertical-align: top;
-	padding-top: 30px;
-	width: 40%;
-	visibility: collapse;
-}
 
-#SteamControllerVersion.SteamControllerSelected 
-{
-	visibility: visible;
-}
 
-#SteamControllerVersion #PersonalizationSection
-{
-	flow-children: right;
-	width: 100%;
-	margin-bottom: 20px;
+/******************************
+	-	IE8 HACKS	-
+*******************************/
+.noFilterClass {
+	filter:none !important;
 }
 
-#SteamControllerVersion #ControllerName
-{
-	width: 300px;
-	vertical-align: middle;
-}
 
-#SteamControllerVersion #PersonalizeButton
-{
-	horizontal-align: right;
-	width: 300px;
-}
+/******************************
+	-	SHADOWS		-
+******************************/
+.tp-bannershadow  {
+		position:absolute;
 
-#SteamControllerVersion #OtherAccountsContainer
-{
-	margin-bottom: 100px;
-}
+		margin-left:auto;
+		margin-right:auto;
+		-moz-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -o-user-select: none;
+	}
 
-#SteamControllerVersion .ControllerDetailsButton
-{
-	width: 300px;
-	margin-right: 10px;
-	margin-bottom: 10px;
-}
+.tp-bannershadow.tp-shadow1 {	background:url(../assets/shadow1.png) no-repeat; background-size:100% 100%; width:890px; height:60px; bottom:-60px}
+.tp-bannershadow.tp-shadow2 {	background:url(../assets/shadow2.png) no-repeat; background-size:100% 100%; width:890px; height:60px;bottom:-60px}
+.tp-bannershadow.tp-shadow3 {	background:url(../assets/shadow3.png) no-repeat; background-size:100% 100%; width:890px; height:60px;bottom:-60px}
 
-#SteamControllerVersion Button Label
-{
-	horizontal-align: middle;
-}
 
-#SteamControllerVersion #ControllerInfo
-{
-	flow-children: down;
-	vertical-align: bottom;
-}
+/********************************
+	-	FULLSCREEN VIDEO	-
+*********************************/
+.caption.fullscreenvideo {	left:0px; top:0px; position:absolute;width:100%;height:100%}
+.caption.fullscreenvideo iframe,
+.caption.fullscreenvideo video	{ width:100% !important; height:100% !important; display: none}
 
-#SteamControllerVersion #ControllerInfo #ControllerInfoButtons
-{
-	flow-children: right-wrap;
-	width: 100%;
-	height: 120px;
-}
+.tp-caption.fullscreenvideo	{	left:0px; top:0px; position:absolute;width:100%;height:100%}
 
-#SteamControllerVersion #RegisteredAccountsContainer
-{
-	width: 100%;
-	padding-left: 50px;
-	flow-children: down;
-	max-height: 300px;
-	overflow: noclip scroll;
-}
 
-.GeneratedSerial .RegisteredAccountButton
-{
-    visibility: collapse;
-}
+.tp-caption.fullscreenvideo iframe,
+.tp-caption.fullscreenvideo iframe video	{ width:100% !important; height:100% !important; display: none}
 
-#SteamControllerVersion #SelectAccountNoneLabel
-{
-	horizontal-align: left;
-	vertical-align: middle;
-}
 
-#SteamControllerVersion #RegisteredAccountsContainer Button
-{
-	flow-children: right;
-	margin-top: 0px;
-	padding: 0px;
-	padding-top: 2px;
-	background-color: simplebutton;
-	transition-property: pre-transform-scale2d,color,background-color,blur;
-	transition-duration: 0.2s;
-	color: applabelsolid;
-	width: 400px;
-	border-width: 5px;
-	border-radius: 0px;
-	border-style: solid;
-	box-shadow: box_shadow_off_color -3px -3px 6px 6px;
-}
+.fullcoveredvideo video,
+.fullscreenvideo video					{	background: #000}
 
-#SteamControllerVersion #RegisteredAccountsContainer Button:focus
-{
-	border-color: white;
-	background-color: gradient( linear, -15% 0%, 100% 0%, from( #fdfdfd66 ), to( #bdbfbf66 ) );
-	color: black;
-	box-shadow: box_shadow_on_color -3px -3px 6px 6px;
-	
-	animation-name: main-button-glow-movement; 
-	animation-duration: 1.7s;
-	animation-delay: 0.0s;
-	animation-timing-function: bigpicture-ease-in-out;
-	animation-iteration-count: infinite;
-	animation-direction: normal;
-}
+.fullcoveredvideo .tp-poster		{	background-position: center center;background-size: cover;width:100%;height:100%;top:0px;left:0px}
 
-.SettingsControllerBindingButton
-{
-	opacity: 0.0;
-	max-height: 0px;
-}
+.html5vid.videoisplaying .tp-poster	{	display: none}
 
-.Joystick .SettingsControllerBindingButton, .Controller .SettingsControllerBindingButton
-{
-	opacity: 1.0;
-	max-height: 100px;
-}
+.tp-video-play-button		{	background:#000;
+								background:rgba(0,0,0,0.3);
+								padding:5px;
+								border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;
+								position: absolute;
+								top: 50%;
+								left: 50%;
+								font-size: 40px;
+								color: #FFF;
+								z-index: 3;
+								margin-top: -27px;
+								margin-left: -28px;
+								text-align: center;
+								cursor: pointer;
+							}
 
-#SettingsControllerLeft
-{
-	width: 428px;
-	margin-left: 200px;
-	margin-right: 140px;
-}
+.html5vid .tp-revstop		{	width:15px;height:20px; border-left:5px solid #fff; border-right:5px solid #fff; position:relative;margin:10px 20px; box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box}
+.html5vid .tp-revstop	{	display:none}
+.html5vid.videoisplaying .revicon-right-dir	{	display:none}
+.html5vid.videoisplaying .tp-revstop	{	display:block}
 
-#SettingsContollerHeaderRow
-{
-	width:1000px;
-	flow-children: right;
-	font-weight: bold;
-}
+.html5vid.videoisplaying .tp-video-play-button	{	display:none}
+.html5vid:hover .tp-video-play-button { display:block}
 
-.SettingsController_BindRow
-{
-	flow-children: right;
+.fullcoveredvideo .tp-video-play-button	{	display:none !important}
 
-	width: 1200px;
-	margin: 5px;
+.tp-video-controls {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
 	padding: 5px;
-	border-style: solid;
-	border-width: 5px;
-	border-color: none;
-}
+	opacity: 0;
+	-webkit-transition: opacity .3s;
+	-moz-transition: opacity .3s;
+	-o-transition: opacity .3s;
+	-ms-transition: opacity .3s;
+	transition: opacity .3s;
+	background-image: linear-gradient(bottom, rgb(0,0,0) 13%, rgb(50,50,50) 100%);
+	background-image: -o-linear-gradient(bottom, rgb(0,0,0) 13%, rgb(50,50,50) 100%);
+	background-image: -moz-linear-gradient(bottom, rgb(0,0,0) 13%, rgb(50,50,50) 100%);
+	background-image: -webkit-linear-gradient(bottom, rgb(0,0,0) 13%, rgb(50,50,50) 100%);
+	background-image: -ms-linear-gradient(bottom, rgb(0,0,0) 13%, rgb(50,50,50) 100%);
 
-.SettingsController_BindRow:focus
-{
-	transition-duration: 0.25s !immediate;
-	transform: translateX( 0px );
-	transition-property: border, background-color, color, box-shadow, transform;
-
-	border-width: 5px;
-	border-style: solid;
-	border-color: #fdfefef0;
-	color: #161718f5;
-	border-radius: 2px;
-	border-radius: 2px;
-
-
-
-	background-color: gradient( linear, -15% 0%, 100% 0%, from( #fdfdfdee ), to( #adafafe0 ) );
-
-	animation-name: main-button-glow-movement;
-	animation-duration: 1.7s;
-	animation-delay: 0.0s;
-	animation-timing-function: bigpicture-ease-in-out;
-	animation-iteration-count: infinite;
-	animation-direction: normal;
-}
-
-.SettingsController_BindRow.EditBind:focus
-{
-	background-color: none;
-//	color: none;
-	border-color: none;
-	border-width: 0px;
-	animation-name: none;
-	margin: -25px 28px -25px 0px;
-	padding: 10px 0px 10px 0px;
-}
-
-
-.EditBind .SettingsControllerCommand
-{
-	padding: 15px -5px 0px 5px; 
-}
-
-.EditBind.SettingsGameControllerBindRow .SettingsControllerCommand
-{
-	padding: 15px -5px 0px 0px; 
-}
-
-
-.SettingsGameController_BindRow
-{
-	flow-children: right;
-	width: 1000px;
-}
-
-.SettingsGameControllerBindRow:focus
-{
-	transition-duration: 0.25s !immediate;
-	transform: translateX( 0px );
-
-	border-width: 5px;
-	border-style: solid;
-	border-color: #fdfefef0;
-	color: #161718f5;
-	border-radius: 2px;
-	border-radius: 2px;
-
-	margin-right: 18px;
-	margin-top: -5px;
-	margin-bottom: -5px;
-
-	background-color: gradient( linear, -15% 0%, 100% 0%, from( #fdfdfdee ), to( #adafafe0 ) );
-
-	animation-name: links-and-more-button-focus, quick-blur; 
-	animation-duration: 1.7s;
-	animation-delay: 0.4s, 0.0s;
-	animation-timing-function: bigpicture-ease-in-out;
-	animation-iteration-count: infinite, 1;
-	animation-direction: normal;
+	background-image: -webkit-gradient(
+		linear,
+		left bottom,
+		left top,
+		color-stop(0.13, rgb(0,0,0)),
+		color-stop(1, rgb(50,50,50))
+	);
 	
+	display:table;max-width:100%; overflow:hidden;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;
 }
 
-.SettingsGameControllerBindRow.EditBind:focus
-{
-	background-color: none;
-	border-color: none;
-	border-width: 0px;
-	animation-name: none;
-	margin: -25px 28px -25px 0px;
-	padding: 10px 0px 10px 0px;
+.tp-caption:hover .tp-video-controls {
+	opacity: .9;
 }
 
-
-.SettingsBindingsVisibile #GameControllerContent
-{
-	opacity: 0.0;
-	padding-right: 0px;
-}
-
-#Settings_GameController.SettingsBindingsVisibile
-{
-	flow-children: none;
-}
-
-.SettingsBindingsVisibile SettingsPanel_GameController_Binding
-{
-	opacity: 1.0;
-	visibility: visible;
-}
-
-SettingsPanel_GameController_Binding 
-{
-	opacity: 0.0;
-	visibility: collapse;
+.tp-video-button {
+	background: rgba(0,0,0,.5);
+	border: 0;
+	color: #EEE;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-o-border-radius: 3px;
+	border-radius: 3px;
+	cursor:pointer;
+	line-height:12px;
+	font-size:12px;
+	color:#fff;
+	padding:0px;
+	margin:0px;
+	outline: none;
+	}
+.tp-video-button:hover {
+	cursor: pointer;
 }
 
-.SettingsControllerCommand
-{
-	margin-left: 10px;
-	
-}
-
-.SettingsController_BindRow:focus .SettingsControllerCommand
-{
-	margin-left: 5px;
-}
 
-.EditBind #ButtonLabel
-{
-	transition-duration: 0.25s !immediate;
-	transform: translateX( 0px );
-
-	border-width: 5px;
-	border-style: solid;
-	border-color: #fdfefef0;
-	border-radius: 2px;
-	color: #161718f5;
-	height: 66px;
-	margin: 10px 0px 11px 0px;
-	padding: 14px 0px 0px 0px;
-	vertical-align: center;
-
-	background-color: gradient( linear, -15% 0%, 100% 0%, from( #fdfdfdee ), to( #adafafe0 ) );
-
-	animation-name: links-and-more-button-focus, quick-blur; 
-	animation-duration: 1.7s;
-	animation-delay: 0.4s, 0.0s;
-	animation-timing-function: bigpicture-ease-in-out;
-	animation-iteration-count: infinite, 1;
-	animation-direction: normal;
-	
-}
-
+.tp-video-button-wrap,
+.tp-video-seek-bar-wrap,
+.tp-video-vol-bar-wrap 	{ padding:0px 5px;display:table-cell; }
 
-.SettingsControllerContent
-{
-	margin-top: 32px;
-	flow-children: right;
-	height: 100%;
-}
+.tp-video-seek-bar-wrap	{	width:80%}
+.tp-video-vol-bar-wrap	{	width:20%}
 
-.SettingsControllerContent .SettingsRight
-{
-	height: 100%;
-}
+.tp-volume-bar,
+.tp-seek-bar		{	width:100%; cursor: pointer;  outline:none; line-height:12px;margin:0; padding:0;}
 
-.SettingsControllerContent #SettingsControllerBinds
-{
-	height: 750px;
-}
 
+/********************************
+	-	FULLSCREEN VIDEO ENDS	-
+*********************************/
 
-#SettingsControllerBinds
-{
-	margin-top: 3px;
-	padding-top:5px;
-	padding-bottom:5px;
-	height: 600px;
-	overflow: squish scroll;
-	flow-children: down;
-//	font-size: 20px;
-	
-	opacity-mask-scroll-up: url( "file://{images}/friends/friends_list_mask_fade_top.png" );
-	opacity-mask-scroll-down: url( "file://{images}/friends/friends_list_mask_fade_bottom.png" );
-	opacity-mask-scroll-up-down: url( "file://{images}/friends/friends_list_mask_fade_both.png" );
-}
 
+/********************************
+	-	DOTTED OVERLAYS	-
+*********************************/
+.tp-dottedoverlay						{	background-repeat:repeat;width:100%;height:100%;position:absolute;top:0px;left:0px;z-index:4}
+.tp-dottedoverlay.twoxtwo				{	background:url(../assets/gridtile.png)}
+.tp-dottedoverlay.twoxtwowhite			{	background:url(../assets/gridtile_white.png)}
+.tp-dottedoverlay.threexthree			{	background:url(../assets/gridtile_3x3.png)}
+.tp-dottedoverlay.threexthreewhite		{	background:url(../assets/gridtile_3x3_white.png)}
+/********************************
+	-	DOTTED OVERLAYS ENDS	-
+*********************************/
 
-.SettingsControllerCommand
-{
-	width: 300px;
-}
 
-.SettingsControllerButton
-{
-	width: 300px;
-	border-radius: 2px;
-}
+/************************
+	-	NAVIGATION	-
+*************************/
 
-#SettingsSteamController_ControllerTypeDropDownMenu
-{
-    z-index: msgbox_zindex;
-    max-height: 320px;
-}
+/** BULLETS **/
 
-SettingsPanelGameController_NameAndCommitBinding, .SettingsPanelGameController_NameAndCommitBinding {
-    width: 100%;
-    height: 100%;
-    z-index: msgbox_zindex;
-    transition-property: opacity;
-    transition-duration: 0.3s !immediate;
-    transition-timing-function: linear;
-    animation-name: msg-box-appear;
-    animation-duration: 0.4s;
-    animation-timing-function: bigpicture-ease-in-out;
-    animation-iteration-count: 1;
-}
+.tpclear		{	clear:both}
 
-SettingsPanelGameController_NameAndCommitBinding.Destructing, .SettingsPanelGameController_NameAndCommitBinding.Destructing
-{
-	opacity: 0.0;
-	transform: translatez( 600px ) translatey( 1080px );
-
-	animation-name: msg-box-disappear;
-	animation-duration: 0.4s;
-	animation-timing-function: bigpicture-ease-in-out;
-	animation-iteration-count: 1;
-}
 
-.ControllerNameEntry
-{
-	width: 500px;
-	height: 50px;
-	
-}
+.tp-bullets									{	z-index:1000; position:absolute;
+												-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+												-moz-opacity: 1;
+												-khtml-opacity: 1;
+												opacity: 1;
+												-webkit-transition: opacity 0.2s ease-out; -moz-transition: opacity 0.2s ease-out; -o-transition: opacity 0.2s ease-out; -ms-transition: opacity 0.2s ease-out;-webkit-transform: translateZ(5px);
+											}
+.tp-bullets.hidebullets					{
+												-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+												-moz-opacity: 0;
+												-khtml-opacity: 0;
+												opacity: 0;
+											}
 
-.ControllerNameBodyRegion
-{
-	width: 45%;
-	padding: 30px 40px 40px 40px;
-	background-color: message_box_bg;
-	box-shadow: fill #00000044 -4px -4px 8px 8px;
-
-	vertical-align: center;
-	horizontal-align: center;
-	flow-children: down;
-
-	border-width: 5px;
-	border-style: solid;
-	border-color: ui_common_control_border;
-
-	color: detailsdatalabel;
-	font-family: platformfont;
-	font-weight: light;
-}
 
-.ControllerNameHeader, .ControllerNameButtonArea
-{
-	vertical-align: center;
-	horizontal-align: center;
-	flow-children: down;
-	font-size: 24px;	
-	margin: 20px;
-}
+.tp-bullets.simplebullets.navbar						{ 	border:1px solid #666; border-bottom:1px solid #444; background:url(../assets/boxed_bgtile.png); height:40px; padding:0px 10px; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px }
 
-.ControllerNameButtons
-{
-	flow-children: right;
-	font-size: 24px;	
-	margin: 20px;
-	horizontal-align: center;
-}
+.tp-bullets.simplebullets.navbar-old					{ 	 background:url(../assets/navigdots_bgtile.png); height:35px; padding:0px 10px; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px }
 
-.ControllerNameButtons Button
-{
-	width: 300px;
-	margin-left: 20px;
-	margin-right: 20px;
-}
 
-.ControllerNameButtons Label
-{
-		horizontal-align: center;
-}
+.tp-bullets.simplebullets.round .bullet					{	cursor:pointer; position:relative;	background:url(../assets/bullet.png) no-Repeat top left;	width:20px;	height:20px;  margin-right:0px; float:left; margin-top:0px; margin-left:3px}
+.tp-bullets.simplebullets.round .bullet.last			{	margin-right:3px}
 
-.a .SettingsGameControllerButtonHighlight
-{
-		position: 276px 102px 0px;
-}
+.tp-bullets.simplebullets.round-old .bullet				{	cursor:pointer; position:relative;	background:url(../assets/bullets.png) no-Repeat bottom left;	width:23px;	height:23px;  margin-right:0px; float:left; margin-top:0px}
+.tp-bullets.simplebullets.round-old .bullet.last		{	margin-right:0px}
 
-.b .SettingsGameControllerButtonHighlight
-{
-		position: 305px 76px 0px;
-}
 
-.x .SettingsGameControllerButtonHighlight
-{
-		position: 250px 76px 0px;
-}
+/**	SQUARE BULLETS **/
+.tp-bullets.simplebullets.square .bullet				{	cursor:pointer; position:relative;	background:url(../assets/bullets2.png) no-Repeat bottom left;	width:19px;	height:19px;  margin-right:0px; float:left; margin-top:0px}
+.tp-bullets.simplebullets.square .bullet.last			{	margin-right:0px}
 
-.y .SettingsGameControllerButtonHighlight
-{
-		position: 279px 49px 0px;
-}
 
-.start .SettingsGameControllerButtonHighlight
-{
-		position: 210px 65px 0px;
-}
+/**	SQUARE BULLETS **/
+.tp-bullets.simplebullets.square-old .bullet			{	cursor:pointer; position:relative;	background:url(../assets/bullets2.png) no-Repeat bottom left;	width:19px;	height:19px;  margin-right:0px; float:left; margin-top:0px}
+.tp-bullets.simplebullets.square-old .bullet.last		{	margin-right:0px}
 
-.guide .SettingsGameControllerButtonHighlight
-{
-	position: 164px 60px 0px;
-		pre-transform-scale2d: 1.2;
-}
 
-.back .SettingsGameControllerButtonHighlight
-{
-		position: 120px 65px 0px;
-}
+/** navbar NAVIGATION VERSION **/
+.tp-bullets.simplebullets.navbar .bullet			{	cursor:pointer; position:relative;	background:url(../assets/bullet_boxed.png) no-Repeat top left;	width:18px;	height:19px;   margin-right:5px; float:left; margin-top:0px}
 
-.leftstick .SettingsGameControllerButtonHighlight
-{
-		position: 46px 69px 0px;
-		pre-transform-scale2d: 1.2;
-}
+.tp-bullets.simplebullets.navbar .bullet.first		{	margin-left:0px !important}
+.tp-bullets.simplebullets.navbar .bullet.last		{	margin-right:0px !important}
 
-.rightstick .SettingsGameControllerButtonHighlight
-{
-		position: 212px 122px 0px;
-		pre-transform-scale2d: 1.2;
-}
 
-.leftshoulder .SettingsGameControllerButtonHighlight
-{
-		position: 44px 0px 0px;
-}
 
-.rightshoulder .SettingsGameControllerButtonHighlight
-{
-		position: 282px 0px 0px;
-}
+/** navbar NAVIGATION VERSION **/
+.tp-bullets.simplebullets.navbar-old .bullet			{	cursor:pointer; position:relative;	background:url(../assets/navigdots.png) no-Repeat bottom left;	width:15px;	height:15px;  margin-left:5px !important; margin-right:5px !important;float:left; margin-top:10px}
+.tp-bullets.simplebullets.navbar-old .bullet.first		{	margin-left:0px !important}
+.tp-bullets.simplebullets.navbar-old .bullet.last		{	margin-right:0px !important}
 
-.dpup .SettingsGameControllerButtonHighlight
-{
-		position: 112px 98px 0px;
-}
 
-.dpdown .SettingsGameControllerButtonHighlight
-{
-		position: 112px 145px 0px;
-}
+.tp-bullets.simplebullets .bullet:hover,
+.tp-bullets.simplebullets .bullet.selected				{	background-position:top left}
 
-.dpleft .SettingsGameControllerButtonHighlight
-{
-		position: 88px 124px 0px;
-}
+.tp-bullets.simplebullets.round .bullet:hover,
+.tp-bullets.simplebullets.round .bullet.selected,
+.tp-bullets.simplebullets.navbar .bullet:hover,
+.tp-bullets.simplebullets.navbar .bullet.selected		{	background-position:bottom left}
 
-.dpright .SettingsGameControllerButtonHighlight
-{
-		position: 136px 124px 0px;
-}
 
-.leftx .SettingsGameControllerButtonHighlight
-{
-	background-image: url("file://{images}/settings/axis_highlight.png");
-	width: 60px;
-	position: 47px 72px 0px;
-}
 
-.lefty .SettingsGameControllerButtonHighlight
-{
-	background-image: url("file://{images}/settings/axis_highlight.png");
-	width: 60px;
-	position: 70px 62px 0px;
-	transform-origin: 0% 0% parent-relative;
-	transform: translateX( -80px ) translateY( -80px ) rotateZ( 90deg ) translateX( 80px ) translateY( 80px );
-}
+/*************************************
+	-	TP ARROWS 	-
+**************************************/
+.tparrows												{	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+															-moz-opacity: 1;
+															-khtml-opacity: 1;
+															opacity: 1;
+															-webkit-transition: opacity 0.2s ease-out; -moz-transition: opacity 0.2s ease-out; -o-transition: opacity 0.2s ease-out; -ms-transition: opacity 0.2s ease-out;
+															-webkit-transform: translateZ(5000px);
+															-webkit-transform-style: flat;
+															-webkit-backface-visibility: hidden;
+															z-index:600;
+															position: relative;
 
-.rightx .SettingsGameControllerButtonHighlight
-{
-	background-image: url("file://{images}/settings/axis_highlight.png");
-	width: 60px;
-	position: 215px 125px 0px;
-}
+														}
+.tparrows.hidearrows									{
+															-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+															-moz-opacity: 0;
+															-khtml-opacity: 0;
+															opacity: 0;
+														}
+.tp-leftarrow											{	z-index:100;cursor:pointer; position:relative;	background:url(../assets/large_left.png) no-Repeat top left;	width:40px;	height:40px;   }
+.tp-rightarrow											{	z-index:100;cursor:pointer; position:relative;	background:url(../assets/large_right.png) no-Repeat top left;	width:40px;	height:40px;   }
 
-.righty .SettingsGameControllerButtonHighlight
-{
-	background-image: url("file://{images}/settings/axis_highlight.png");
-	width: 60px;
-	position: 125px 135px 0px;
-	transform-origin: 0% 0% parent-relative;
-	transform: translateX( -200px ) translateY( -200px ) rotateZ( 90deg ) translateX( 200px ) translateY( 200px );
-}
 
-.lefttrigger .SettingsGameControllerButtonHighlight
-{
-		position: 44px -15px 0px;
-}
+.tp-leftarrow.round										{	z-index:100;cursor:pointer; position:relative;	background:url(../assets/small_left.png) no-Repeat top left;	width:19px;	height:14px;  margin-right:0px; float:left; margin-top:0px;	}
+.tp-rightarrow.round									{	z-index:100;cursor:pointer; position:relative;	background:url(../assets/small_right.png) no-Repeat top left;	width:19px;	height:14px;  margin-right:0px; float:left;	margin-top:0px}
 
-.righttrigger .SettingsGameControllerButtonHighlight
-{
-		position: 282px -15px 0px;
-}
 
-.NotLoggedIn #AccountSettingsButton,
-.NotLoggedIn #FriendsSettingsButton,
-.NotLoggedIn #InGameSettingsButton,
-.NotLoggedIn #RemoteClientsButton,
-.NotLoggedIn #StoreSettingsButton,
-.NotLoggedIn #MusicSettingsButton,
-.NotLoggedIn #VoiceSettingsButton,
-.NotLoggedIn #BroadcastSettingsButton,
-.NotLoggedIn #DownloadsSettingsButton,
-.NotLoggedIn #DiskManagetmentButton,
-.NotLoggedIn #AddShortcutSettingsButton,
-.NotLoggedIn #WebBrowserSettingsButton,
-.NotLoggedIn #KeyboardSettingsButton,
-.NotLoggedIn #InterfaceSettingsButton,
-.NotLoggedIn #PersonalSettingsHeaderLabel,
-.NotLoggedIn #FeaturesSettingsHeaderLabel
-{
-	visibility: collapse;
-}
+.tp-leftarrow.round-old									{	z-index:100;cursor:pointer; position:relative;	background:url(../assets/arrow_left.png) no-Repeat top left;	width:26px;	height:26px;  margin-right:0px; float:left; margin-top:0px;	}
+.tp-rightarrow.round-old								{	z-index:100;cursor:pointer; position:relative;	background:url(../assets/arrow_right.png) no-Repeat top left;	width:26px;	height:26px;  margin-right:0px; float:left;	margin-top:0px}
 
-// always hide store settings, this code is moving to the web
-#StoreSettingsButton
-{
-	visibility: collapse;
-}
 
-.SettingsPanel_Family_Sharing_List
-{
-	flow-children: down;
-	overflow: squish scroll;
-	width: 975px;
-	height: 395px;
-	margin-top: 10px;
-	padding: 8px;
-
-	background-color: dialog_bg_color;
-	box-shadow: box_shadow_off_color -5px -5px 6px 10px;
-}
+.tp-leftarrow.navbar									{	z-index:100;cursor:pointer; position:relative;	background:url(../assets/small_left_boxed.png) no-Repeat top left;	width:20px;	height:15px;   float:left;	margin-right:6px; margin-top:12px}
+.tp-rightarrow.navbar									{	z-index:100;cursor:pointer; position:relative;	background:url(../assets/small_right_boxed.png) no-Repeat top left;	width:20px;	height:15px;   float:left;	margin-left:6px; margin-top:12px}
 
 
-	
-.SettingsPanel_Family_Sharing_List:focus
-{
-	border-color: applabelsolid;
-
-	animation-name: main-button-glow-movement;
-	animation-duration: 1.7s;
-	animation-delay: 0.4s;
-	animation-timing-function: bigpicture-ease-in-out;
-	animation-iteration-count: infinite;
-	animation-direction: normal;
-}
+.tp-leftarrow.navbar-old								{	z-index:100;cursor:pointer; position:relative;	background:url(../assets/arrowleft.png) no-Repeat top left;		width:9px;	height:16px;   float:left;	margin-right:6px; margin-top:10px}
+.tp-rightarrow.navbar-old								{	z-index:100;cursor:pointer; position:relative;	background:url(../assets/arrowright.png) no-Repeat top left;	width:9px;	height:16px;   float:left;	margin-left:6px; margin-top:10px}
 
-.SettingsPanel_Family_Sharing_List VerticalScrollBar
-{
-	margin-right: 10px;
-	margin-left: 3px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
+.tp-leftarrow.navbar-old.thumbswitharrow				{	margin-right:10px}
+.tp-rightarrow.navbar-old.thumbswitharrow				{	margin-left:0px}
 
-#BorrowerToggle
-{
-	margin-bottom: 6px;
-	margin-top: 6px;
-	margin-right: 8px;
-	background-color: none;
-	height: 52px;
-	border-color: none;
-	box-shadow: none;
-	animation-name: none;
-	
-}
+.tp-leftarrow.square									{	z-index:100;cursor:pointer; position:relative;	background:url(../assets/arrow_left2.png) no-Repeat top left;	width:12px;	height:17px;   float:left;	margin-right:0px; margin-top:0px}
+.tp-rightarrow.square									{	z-index:100;cursor:pointer; position:relative;	background:url(../assets/arrow_right2.png) no-Repeat top left;	width:12px;	height:17px;   float:left;	margin-left:0px; margin-top:0px}
 
-#BorrowerToggle Label
-{
-	color: applabelsolid;
-	transform: translateX( 4px );
-	opacity: 0.7;
-	transition-property: color, transform, opacity;
-	transition-duration: 0.23s;
-	transition-timing-function: ease-out;
-	transition-delay: 0.0s;
-}
 
-#BorrowerToggle:descendantfocus Label, #BorrowerToggle:hover Label, 
-{
-	transform: translateX( 10px );
-	opacity: 1.0;
-}
+.tp-leftarrow.square-old								{	z-index:100;cursor:pointer; position:relative;	background:url(../assets/arrow_left2.png) no-Repeat top left;	width:12px;	height:17px;   float:left;	margin-right:0px; margin-top:0px}
+.tp-rightarrow.square-old								{	z-index:100;cursor:pointer; position:relative;	background:url(../assets/arrow_right2.png) no-Repeat top left;	width:12px;	height:17px;   float:left;	margin-left:0px; margin-top:0px}
 
-#BorrowerToggle .CheckBox, #BorrowerToggle .TickBox
-{
-	width: 44px;
-	height: 44px;
-	background-color: #FFFFFF22;
-}
 
-#BorrowerToggle:descendantfocus .CheckBox, #BorrowerToggle:descendantfocus .TickBox
-{
-	box-shadow: fill box_shadow_on_color -3px -3px 9px 6px;
-	animation-name: main-button-glow-movement;
-	animation-duration: 1.7s;
-	animation-delay: 0.0s;
-	animation-timing-function: bigpicture-ease-in-out;
-	animation-iteration-count: infinite;
-	animation-direction: normal;
-	background-color: #cccccc;
-	border-color: #ffffff;
-}
+.tp-leftarrow.default									{	z-index:100;cursor:pointer; position:relative;	background:url(../assets/large_left.png) no-Repeat 0 0;	width:40px;	height:40px;
 
+														}
+.tp-rightarrow.default									{	z-index:100;cursor:pointer; position:relative;	background:url(../assets/large_right.png) no-Repeat 0 0;	width:40px;	height:40px;
 
-.SettingsPanel_Family_Sharing_List_ColumnName
-{
+														}
 
-	font-size: 24px;
-	margin-left: 4px;
-	margin-top: 20px;
-	color: tcstatictext;
-}
 
-.SettingsPanel_Family_Sharing_List_ColumnItem
-{
-	width: 48px;
-	font-size: 24px;
-	margin-top: 20px;
-	text-align: right;
-	padding-right: 10px;
-	color: applabelsolid;
-}
 
-.SettingsManageDevices_Header
-{
-	font-size: 32px;
-	flow-children: right;
-	margin-top: 20px;
-}
 
-.SettingsManageDevices_List, #AppList #SettingsDiskManagementTable, #SettingsBluetoothDeviceTable
-{
-	height: 500px;
-	width: 1200px;
-	flow-children: down;
-	overflow: squish scroll;
-	background-color: dialog_bg_color;
-}
+.tp-leftarrow:hover,
+.tp-rightarrow:hover 									{	background-position:bottom left}
 
-.SettingsManageDevices_ColumnItem
-{
-	width: 55px;
-	font-size: 24px;
-	margin-top: 20px;
-}
 
-.SettingsManageDevices_ColumnName, .SettingsDiskSpaceManagement_ColumnName, .SettingsBluetooth_ColumnName
-{
-
-	font-size: 24px;
-	margin-left: 8px;
-	margin-top: 20px;
-	margin-right: 28px;
-	color: detailsdatalabel;
-}
 
 
-#Settings_ManageDevices .SettingsManageDevices_ColumnName
-{
-	width: 317px;
-}
 
-#Settings_RemoteClients .SettingsManageDevices_ColumnName
-{
-	width: 536px;
-}
 
-#AppNameHeader.SettingsDiskSpaceManagement_ColumnName
-{
-	width: 672px;
-}
+/****************************************************************************************************
+	-	TP THUMBS 	-
+*****************************************************************************************************
 
-#AppSizeHeader.SettingsDiskSpaceManagement_ColumnName
-{
-	text-align: right;
-	width: 317px;
-}
+ - tp-thumbs & tp-mask Width is the width of the basic Thumb Container (500px basic settings)
 
+ - .bullet width & height is the dimension of a simple Thumbnail (basic 100px x 50px)
 
-.SettingsManageDevices_ColumnTime
-{
-	width: 350px;
-	font-size: 24px;
-	margin-top: 20px;
-	margin-left: 8px;
-	color: detailsdatalabel;
-}
+ *****************************************************************************************************/
 
-.SettingsManageDevices_ColumnUser
-{
-	width: 400px;
-	font-size: 24px;
-	margin-top: 20px;
-	margin-left: 8px;
-	color: detailsdatalabel;
-}
 
-.SettingsManageDevices_ColumnItemContent
-{
-	width: 32px;
-	margin-right: 8px;
-	font-size: 24px;
-	text-align: right;
-	color: detailsdatalabel;
-}
+.tp-bullets.tp-thumbs						{	z-index:1000; position:absolute; padding:3px;background-color:#fff;
+												width:500px;height:50px; 			/* THE DIMENSIONS OF THE THUMB CONTAINER */
+												margin-top:-50px;
+											}
 
-.SettingsManageDevices_ColumnNameContent
-{
-	width: 325px;
-	font-size: 24px;
-	padding-right: 8px;
-	color: applabelsolid;
-	opacity: 0.7;
-}
 
-.SettingsManageDevices_ColumnTimeContent
-{
-	width: 350px;
-	font-size: 24px;
-	margin-right: 8px;
-	color: applabelsolid;
-	opacity: 0.7;
-}
+.fullwidthbanner-container .tp-thumbs		{  padding:3px}
 
-.SettingsManageDevices_ColumnUserContent
-{
-	width: 400px;
-	font-size: 24px;
-	margin-right: 8px;
-	color: applabelsolid;
-	opacity: 0.7;
-}
+.tp-bullets.tp-thumbs .tp-mask				{	width:500px; height:50px;  			/* THE DIMENSIONS OF THE THUMB CONTAINER */
+												overflow:hidden; position:relative}
 
-.SettingsController_BindRow:focus .SettingsManageDevices_ColumnItemContent,.SettingsController_BindRow:focus .SettingsManageDevices_ColumnNameContent, .SettingsController_BindRow:focus .SettingsManageDevices_ColumnTimeContent, .SettingsController_BindRow:focus .SettingsManageDevices_ColumnUserContent
-{
-	color: black;
-	opacity: 1.0;
-}
 
-.AuthButton
-{
-	horizontal-align: left;
-	margin-top: 20px;
-	width: fit-children;
-	padding-right: 20px;
-}
+.tp-bullets.tp-thumbs .tp-mask .tp-thumbcontainer	{	width:5000px; position:absolute}
 
+.tp-bullets.tp-thumbs .bullet				{   width:100px; height:50px; 			/* THE DIMENSION OF A SINGLE THUMB */
+												cursor:pointer; overflow:hidden;background:none;margin:0;float:left;
+												-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+												/*filter: alpha(opacity=50);	*/
+												-moz-opacity: 0.5;
+												-khtml-opacity: 0.5;
+												opacity: 0.5;
 
-.AuthButton:focus .LongDesc
-{
-color: black;
-}
+												-webkit-transition: all 0.2s ease-out; -moz-transition: all 0.2s ease-out; -o-transition: all 0.2s ease-out; -ms-transition: all 0.2s ease-out;
+											}
 
 
-//
-// Remote Clients
-//
+.tp-bullets.tp-thumbs .bullet:hover,
+.tp-bullets.tp-thumbs .bullet.selected		{ 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 
-.SettingsRemoteClientsInstructions
-{
-	margin-top: 40px;
-	color: #abb4b9;
-}
+												-moz-opacity: 1;
+												-khtml-opacity: 1;
+												opacity: 1;
+											}
+.tp-thumbs img								{	width:100%}
 
-#SettingsRemoteClientTable, #SettingsDiskManagementTable, #SettingsBluetoothDeviceTable
-{
-	flow-children: down;
-	width: 1025px;
-	height: 250px;
-	margin-bottom: 20px;
-	margin-top: 16px;
-	border-radius: 2px;
-	border-width: 5px;
-	border-style: solid;
-	border-color: ui_common_control_border;
-	background-color: dialog_bg_color;
-	box-shadow: box_shadow_off_color -5px -5px 6px 10px;
-}
 
-#SettingsRemoteClientsStreamActiveContainer
-{
-    flow-children: down;
-    height: 300px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
+/************************************
+		-	TP BANNER TIMER		-
+*************************************/
+.tp-bannertimer								{	width:100%; height:10px; background:url(../assets/timer.png);position:absolute; z-index:200;top:0px}
+.tp-bannertimer.tp-bottom					{	bottom:0px;height:5px; top:auto}
 
-#SettingsRemoteClientsStreamActiveDeviceLabel
-{
-    margin-top: 16px;
-    margin-bottom: 16px;
-}
 
-#SettingsRemoteClientsStreamActiveSpaceFiller
-{
-    height: fill-parent-flow( 1.0 );
-}
 
-#SettingsDiskManagementTable, #SettingsBluetoothDeviceTable
-{
-	height: 500px;	
-}
 
-#SettingsDiskManagement_FoldersBlock
-{
-	visibility: collapse;
-}
+/***************************************
+	-	RESPONSIVE SETTINGS 	-
+****************************************/
 
-.HasMultipleFolders #SettingsDiskManagement_FoldersBlock
-{
-	visibility: visible;
-}
 
-#SettingsDiskManagement_FoldersBlock
-{
-	flow-children: right;
-}
 
-#SettingsDiskManagement_FoldersBlock Label
-{
-	vertical-align: center;
-	padding : 10px;
-}
 
-#SettingsDiskManagement_IsDefaultFolder
-{
-	visibility: collapse;
-}
+    @media only screen and (min-width: 0px) and (max-width: 479px) {
+				.responsive .tp-bullets	{	display:none}
+				.responsive .tparrows	{	display:none}
+	}
 
-.IsDefaultFolder #SettingsDiskManagement_IsDefaultFolder
-{
-	visibility: visible;
-}
 
 
-#SettingsRemoteClientTable:descendantfocus, #SettingsDiskManagementTable:descendantfocus
-{
-	box-shadow: box_shadow_off_color -5px -5px 6px 10px;
-}
-	
-#SettingsRemoteClientTable:focus, #SettingsDiskManagementTable:focus
-{
-	border-color: applabelsolid;
-
-	animation-name: main-button-glow-movement;
-	animation-duration: 1.7s;
-	animation-delay: 0.4s;
-	animation-timing-function: bigpicture-ease-in-out;
-	animation-iteration-count: infinite;
-	animation-direction: normal;
-}
 
-.SettingsRemoteClientSection
-{
-	width: 1025px;
-	height: 250px;
-	background-color: simplebutton;
-}
 
-.SettingsRemoteClientsColumnDevice
-{
-	width: 538px;
-}
+/*********************************************
 
-.SettingsRemoteClientsColumnStatus
-{
-	width: 676px;
-}
+	-	BASIC SETTINGS FOR THE BANNER	-
 
-.SettingsDiskManagementApp
-{
-	width: 776px;
-}
+***********************************************/
 
-.SettingsRemoteClientsHeader, .SettingsDiskSpaceManagementHeader, .SettingsBluetoothHeader
-{
-	margin: -12px 0px 0px 0px;
-	padding-bottom: 6px;
-	flow-children: right;
-	background-color: simplebuttonsolid;
-	width: 1025px;
+ .tp-simpleresponsive img {
+		-moz-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -o-user-select: none;
 }
 
-#SettingsRemoteClientList, #AppList #SettingsDiskManagementTable, #DeviceList #SettingsBluetoothDeviceTable
-{
-	height: fill-parent-flow( 1.0 );
-	width: 100%;
-	padding: 8px;
-	flow-children: down;
-	overflow: squish scroll;
-	
-	
-	opacity-mask-scroll-up: url( "file://{images}/friends/friends_list_mask_fade_top.png" );
-	opacity-mask-scroll-down: url( "file://{images}/friends/friends_list_mask_fade_bottom.png" );
-	opacity-mask-scroll-up-down: url( "file://{images}/friends/friends_list_mask_fade_both.png" );
-}
 
-#SettingsRemoteClientTable:descendantfocus #SettingsRemoteClientList, #SettingsDiskManagementTable:descendantfocus
-{
-	background-color: ui_common_control;
-}
 
-#RemoteClientThrobber
-{
-	width: 120px;
-	height: 120px;
-	align: center center;
-	opacity: 0.0;
-	
-	transition-property: opacity;
-	transition-duration: 0.23s;
-	transition-timing-function: bigpicture-ease-in-out;
-	transition-delay: 0.0s;
-}
+.tp-simpleresponsive a{	text-decoration:none}
 
-SettingsPanel_RemoteClients.Loading #RemoteClientThrobber
-{
-	opacity: 1.0;
-	
-	animation-name: loading-throbber-appear;
-	animation-duration: 0.23s;
-	animation-delay: 0.0s;
-	animation-timing-function: bigpicture-ease-in-out;
-	animation-iteration-count: 1;
-	animation-direction: normal;
+.tp-simpleresponsive ul,
+.tp-simpleresponsive ul li,
+.tp-simpleresponsive ul li:before {
+	list-style:none;
+	padding:0 !important;
+	margin:0 !important;
+	list-style:none !important;
+	overflow-x: visible;
+	overflow-y: visible;
+	background-image:none
 }
-
 
-// clean up with other styles in settings
-SettingsPanelRemoteClientListing
-{
-	flow-children: right;
-	background-color: transparent;
-	width: fit-children;
 
-	margin-right: 8px;
-	horizontal-align: center;
+.tp-simpleresponsive >ul >li{
+	list-style:none;
+	position:absolute;
+	visibility:hidden
 }
 
+/*  CAPTION SLIDELINK   **/
+.caption.slidelink a div,
+.tp-caption.slidelink a div {	width:3000px; height:1500px;  background:url(../assets/coloredbg.png) repeat}
 
-SettingsPanelDiskManagementAppListing Button, SettingsPanelBluetoothDeviceListing Button,
-{
-	width: 100%;
-	flow-children: right;
-	background-color: transparent;
-	width: fit-children;
+.tp-caption.slidelink a span	{	background:url(../assets/coloredbg.png) repeat}
 
-	padding: 10px 10px 0px 10px;
 
-	margin-right: 16px;
-	margin-left: 8px;
-	margin-bottom: 0px;
-	margin-top: 0px;
-	horizontal-align: center;
 
-
-}
-
-SettingsPanel_RemoteClients.Loading SettingsPanelRemoteClientListing
-{
-	visibility: collapse;
-}
+/*****************************************
+	-	NAVIGATION FANCY EXAMPLES	-
+*****************************************/
 
+.tparrows .tp-arr-imgholder								{ display: none}
+.tparrows .tp-arr-titleholder							{ display: none}
 
-SettingsPanelRemoteClientListing:focus, SettingsPanelDiskManagementAppListing Button:focus, SettingsPanelBluetoothDeviceListing Button:focus
-{
-	transition-duration: 0.25s !immediate;
 
-	z-index: 1000;
 
-}
+/*****************************************
+	-	NAVIGATION FANCY EXAMPLES	-
+*****************************************/
 
-#SettingsDiskManagementTable .VertContainer
-{
-	overflow: squish scroll;
-	padding-bottom: 8px;
-	padding-top: 8px;
-	
-	opacity-mask-scroll-up: url( "file://{images}/friends/friends_list_mask_fade_top.png" );
-	opacity-mask-scroll-down: url( "file://{images}/friends/friends_list_mask_fade_bottom.png" );
-	opacity-mask-scroll-up-down: url( "file://{images}/friends/friends_list_mask_fade_both.png" );
-}
+/* NAVIGATION PREVIEW 1 */
+.tparrows.preview1 							{	width:100px;height:100px;-webkit-transform-style: preserve-3d; -webkit-perspective: 1000; -moz-perspective: 1000; -webkit-backface-visibility: hidden; -moz-backface-visibility: hidden;background: transparent}
+.tparrows.preview1:after					{	position:absolute; left:0px;top:0px; font-family: "revicons"; color:#fff; font-size:30px; width:100px;height:100px;text-align: center; background:#fff;background:rgba(0,0,0,0.15);z-index:2;line-height:100px; -webkit-transition: background 0.3s, color 0.3s; -moz-transition: background 0.3s, color 0.3s; transition: background 0.3s, color 0.3s}
+.tp-rightarrow.preview1:after				{	content: '\e825';  }
+.tp-leftarrow.preview1:after				{	content: '\e824';  }
 
-SettingsPanelRemoteClientListing:descendantfocus, SettingsPanelDiskManagementAppListing Button:descendantfocus, SettingsPanelBluetoothDeviceListing Button:descendantfocus
-
-{
-	background-color: gradient( linear, 0% 0%, 100% 100%, from( #66c0f4ff ), to( #b6e1faff ) );
-	animation-name: button-focus;
-	animation-duration: 1.7s;
-	animation-delay: 0.4s;
-	animation-timing-function: bigpicture-ease-in-out;
-	animation-iteration-count: infinite;
-	animation-direction: normal;
-}
+.tparrows.preview1:hover:after 				{	background:rgba(255,255,255,1); color:#aaa}
 
-SettingsPanelDiskManagementAppListing Button Label, SettingsPanelBluetoothDeviceListing Button Label
-{
-	transform: translateX( 0px );
-	transition-property: transform;
-	transition-duration: 0.3s;
-	transition-timing-function: bigpicture-ease-in-out;
+.tparrows.preview1 .tp-arr-imgholder 		{	background-size:cover; background-position:center center; display:block;width:100%;height:100%;position:absolute;top:0px;
+												-webkit-transition: -webkit-transform 0.3s;
+												transition: transform 0.3s;
+												-webkit-backface-visibility: hidden;
+												backface-visibility: hidden;
+											}
+.tparrows.preview1 .tp-arr-iwrapper			{	  -webkit-transition: all 0.3s;transition: all 0.3s;
+												-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";filter: alpha(opacity=0);-moz-opacity: 0.0;-khtml-opacity: 0.0;opacity: 0.0}
+.tparrows.preview1:hover .tp-arr-iwrapper	{	  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";filter: alpha(opacity=100);-moz-opacity: 1;-khtml-opacity: 1;opacity: 1}
 
-}
 
-SettingsPanelDiskManagementAppListing Button:descendantfocus Label, SettingsPanelBluetoothDeviceListing Button:descendantfocus Label
-{
-	transform: translateX( 7px );
+.tp-rightarrow.preview1 .tp-arr-imgholder	{	right:100%;
+												-webkit-transform: rotateY(-90deg);
+												transform: rotateY(-90deg);
+												-webkit-transform-origin: 100% 50%;
+												transform-origin: 100% 50%;
+												  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";filter: alpha(opacity=0);-moz-opacity: 0.0;-khtml-opacity: 0.0;opacity: 0.0;
 
-	color: #072e47;
-}
 
-.SettingsDiskManagementSize
-{
-	text-align: right;
-	width: 438px;
-}
 
-SettingsPanelDiskManagementAppListing Button:descendantfocus .SettingsDiskManagementSize
-{
-	transform: translateX( -7px );
-	transition-property: transform;
-	transition-duration: 0.3s;
-	transition-timing-function: bigpicture-ease-in-out;
-	
-}
+											}
+.tp-leftarrow.preview1 .tp-arr-imgholder	{	left:100%;
+												-webkit-transform: rotateY(90deg);
+												transform: rotateY(90deg);
+												-webkit-transform-origin: 0% 50%;
+												transform-origin: 0% 50%;
+												  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";filter: alpha(opacity=0);-moz-opacity: 0.0;-khtml-opacity: 0.0;opacity: 0.0;
 
-SettingsPanelRemoteClientListing #Status
-{
-	color: #a1b3bd;
-}
 
-.TimeZoneLabel
-{
-	margin-bottom: 10px;
-}
 
-.SteamOSButton
-{
-	visibility: collapse;
-}
+											}
 
-.SteamOS .SteamOSButton
-{
-	visibility: visible;
-}
 
-.NonSteamOSButton
-{
-	visibility: visible;
-}
+.tparrows.preview1:hover .tp-arr-imgholder	{	-webkit-transform: rotateY(0deg);
+												transform: rotateY(0deg);
+												  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";filter: alpha(opacity=100);-moz-opacity: 1;-khtml-opacity: 1;opacity: 1;
 
-.SteamOS .NonSteamOSButton
-{
-	visibility: collapse;
-}
+											}
 
-.Spacer
-{
-	height: 20px;
-}
 
-.Spacer2
-{
-	height: 22px;
-}
+	@media only screen and (min-width: 768px) and (max-width: 979px) {
+		.tparrows.preview1,
+		.tparrows.preview1:after	{	width:80px; height:80px;line-height:80px; font-size:24px}
 
+	}
 
-#Settings_Downloads_RegionDropDownMenu DropDownMenu
-{
-	max-height: 600px;
+    @media only screen and (min-width: 480px) and (max-width: 767px) {
+		.tparrows.preview1,
+		.tparrows.preview1:after	{	width:60px; height:60px;line-height:60px;font-size:20px}
 
 	}
 
 
-/* CSS for check for updates steam client button in About dialog */
-#SettingsInterface_SteamClientChecking
-{
-	visibility: collapse;
-	width: 100%;
-}
-
-/* hide check label if chekcing or downloading or have update*/
-.SteamClientPending #SettingsInterface_SteamClientCheckForUpdates, .SteamClientChecking #SettingsInterface_SteamClientCheckForUpdatesLabel, .SteamClientDownloading #SettingsInterface_SteamClientCheckForUpdatesLabel
-{
-	visibility: collapse;
-	width: 100%;
-}
-
-.SteamClientChecking #SettingsInterface_SteamClientChecking
-{
-	visibility: visible;
-}
-
-/* hide restart button if we don't have a pending restart */
-#SettingsInterface_SteamClientPending
-{
-	visibility: collapse;
-
-}
-
-.SteamClientPending #SettingsInterface_SteamClientPending
-{
-	visibility: visible;
-}
-
-/* hide downloading label if we aren't downloading */
-#SettingsInterface_SteamClientDownloading
-{
-	visibility: collapse;
-	width: 100%;
-}
-
-.SteamClientDownloading #SettingsInterface_SteamClientDownloading
-{
-	visibility: visible;
-}
-
-#CheckForUpdatesWrapper
-{
-	flow-children: down;
-	height: 60px;
-}
-
-
-/* Hide the news button for client updates if not logged in, it won't work */
-.NotLoggedIn #SettingsAbout_ClientUpdate,
-.NotLoggedIn .ClientBetaOptIn
-{
-	visibility: collapse;
-}
-
-.BetaFilter
-{
-	margin-top: 8px;
-	margin-left: 0px;
-}
-
-.ClientInfoSectionHeader
-{
-	margin-top: 50px;
-	margin-bottom: 4px;
-}
-
-.SteamOS .ClientInfoSectionHeader,
-.MainBetaVisible .ClientInfoSectionHeader
-{
-	margin-top: 12px;
-}
-
-.SteamOS SettingsPanel_Display
-{
-	margin-bottom: -40px;
-}
-
-SettingsPanel_Display.Underscan
-{
-	visibility: collapse;	
-}
-
-.SteamOS SettingsPanel_Display.Underscan
-{
-	visibility: visible;
-	
-	background-image: url( "file://{images}/settings/underscan1.png" ), url( "file://{images}/settings/underscan2.png" ), url( "file://{images}/settings/underscan3.png" ), url( "file://{images}/settings/underscan4.png" );
-	background-repeat: no-repeat;
-	background-position: left top, right top, right bottom, left bottom;
-	background-size: 100px 100px;
-	background-color: settingsbackgroundgradient;
-}
-
-.SteamOSUpdates
-{
-	visibility: collapse;	
-}
-
-.SteamOS.Linux .SteamOSUpdates
-{
-	visibility: visible;	
-}
-
-#SettingsAbout_SteamOSUpdateButton
-{
-	flow-children: right;
-}
-
-.SteamOsUpdateThrobber
-{
-	opacity: 0.0;
-	width: 34px;
-	height: 34px;
-	horizontal-align: center;
-
-	margin-left: 100px;
-	margin-top: 2px;
-}
-
-.SteamOSCheckingForUpdates .SteamOsUpdateThrobber
-{
-	opacity: 0.7;
-}
-
-.HideDriverDate #DriverDateLabel, .HideDriverDate #DriverDateValue
-{
-	visibility: collapse;
-}
-
-.HideVideoMemory #VideoMemoryLabel, .HideVideoMemory #VideoMemoryValue
-{
-    visibility: collapse;
-}
-
-#SettingsDownloads_TimeLimitFromDropDownMenu, 
-#SettingsDownloads_TimeLimitToDropDownMenu  
-{
-	width: 230px;
-	max-height: 320px;
-}
-
-
-#Settings_AuthorizeLocalDevice .Button {
-    margin-right: 20px;
-}
-
-
-
-#SettingsAbout_LegalInformationButton
-{
-	margin-top: 25px;
-}
-
-.SettingsPanel_Family_Sharing_Borrower
-{
-	flow-children: right;
-	margin: 0px;
-	padding: 0px;
-	padding-left: 0px;
-	border-width: 0px;
-	width: 100%;
-	margin-right: 8px;
-}
-
-.SettingsPanel_Family_Sharing_Borrower:descendantfocus
-{
-	background-color: none;
-}
-
-.SettingsSteamPlayPanels
-{
-	width: 100%;
-	margin-top: 0px;
-	//padding-bottom: 20px;
-	visibility: visible;
-}
-
-.SettingsSteamPlayPanels_Dropdown
-{
-	horizontal-align: left;
-}
-
-.SettingsSteamPlayPanels_Dropdown:disabled
-{
-	visibility: collapse;
-}
-
-#SettingsSteamPlay_HR
-{
-	horizontal-align: left;
-	width: 1200px;
-	margin-top: 25px;
-	margin-bottom: 8px;
-}
-
-// Steam Controller Settings styles
-.CtlrBarContainer
-{
-	background-color: simplebutton;
-	height: 70px;
-	width: fit-children;
-	border-radius: 4px;
-	flow-children: right;
-	border: 5px solid #1c333dff;
-	padding-left: 2px;
-	padding-right: 2px;
-	padding-bottom: 5px;
-	padding-top: 5px;
-	margin: 14px;
-	margin-left: 0px;
-	transition-property: transform, pre-transform-scale2d;
-	transition-duration: 0.20s;
-	border-color: none;
-	border-style: solid;
-	border-width: 5px;
-
-}
-
-.CtlrBar
-{
-	height: 100%;
-	width: 8px;
-	border-radius: 1px;
-	margin-left: 5px;
-	margin-right: 5px;
-	vertical-align: bottom;
-	background-color: #99999999;
-	opacity: 0.5;
-
-	transition-property: background-color;
-	transition-duration: 0.05s;
-	transition-timing-function: bigpicture-ease-in-out;
-}
-
-.CtlrBarContainer:focus .CtlrBar
-{
-	opacity: 1.0;
-}
-
-.CtlrBarActive
-{
-	background-color: ui_primary_color;
-	transition-duration: 0.3s;
-	opacity: 1.0;
-}
-
-.CtlrBarContainer:focus
-{
-	background-color: gradient( linear, -15% 0%, 100% 0%, from( #fdfdfd66 ), to( #bdbfbf66 ) );
-	pre-transform-scale2d: 1.0;
-	border-color: white;
-	box-shadow: box_shadow_on_color -3px -3px 6px 6px;
-}
-
-.CtlrBarContainer:selected
-{
-	pre-transform-scale2d: 1.06;
-	background-color: gradient( linear, -15% 0%, 100% 0%, from( #fdfdfdff ), to( #bdbfbfff ) );
-}
-
-
-.OfflineMode #SettingsAccount_ChangePassword,.OfflineMode #SettingsAccount_ChangeEmail
-{
-	visibility: collapse;
-}
-
-// updated change pw button to go to help site
-#SettingsAccount_ChangePassword
-{
-	visibility: visible;
-}
-
-#AudioCard, #AudioCard_Error, #PortAvailable, #PortUnavailable, #PortNoNext, #CodecsAvailable, #CodecsUnavailable
-{
-	visibility: collapse;
-}
-
-.SystemAudioSupport #AudioCard, .SystemAudioSupport_Failed #AudioCard_Error, .AudioPort #PortAvailable, .AudioPort_Failed #PortUnavailable, .AudioPort_Digital #PortNoNext, .AudioCodec_Unavailable #CodecsUnavailable, .AudioCodec_Available #CodecsAvailable
-{
-	visibility: visible;
-}
-
-.AudioFlow
-{
-	flow-children: down;
-}
-
-.AudioBottom
-{
-	margin-bottom: 10px;
-}
-
-.AudioCheck
-{
-	font-size: 24px;
-	font-family: platformfont;
-	margin-top: 20px;
-}
-
-.AudioDropDown_Wiz, #CardDropDownMenu, #PortDropDownMenu, #ProfileDropDownMenu
-{
-	width: 700px;
-}
-
-#SettingsVoice_Boost
-{
-	opacity: 0.0;
-}
-
-.SupportsMicBoost #SettingsVoice_Boost
-{
-	opacity: 1.0;
-}
-
-
-#DeviceAuthorizedStateLabel
-{
-	margin-bottom: 10px;
-}
-	
-#BorrowersLabel
-{
-	margin-top: 20px;
-	margin-bottom: 10px;
-}
-	
-#LastTimeLabel
-{
-
-	font-size: 20px;
-	margin-top: 4px;
-
-}
-
-.SystemAudioSupport #DetectAudioButton, .SystemAudioSupport #InputDeviceGroupOther
-{
-	flow-children: down;
-	visibility: collapse;
-}
-
-#InputDeviceGroupOther
-{
-	flow-children: down;
-}
-
-
-#InputDeviceGroupLinux
-{
-	visibility: collapse;
-}
-
-.SystemAudioSupport #InputDeviceGroupLinux
-{
-	flow-children: down;
-	visibility: visible;
-}
-
-#VoiceOutputToInput
-{
-	margin-top: 20px;
-	width: 600px;
-}
-
-.colorpicker
-{
-	flow-children: right;
-	padding: 20px;
-	padding-right: 0px;
-	padding-left: 0px;
-}
-
-.colorpicker Image
-{
-	margin-right: 12px;
-
-	wash-color: #00000000;
-}
-
-.colorwrapper
-{
-	vertical-align: center;
-}
-
-.colorpicker .colorregion
-{
-	padding: 2px;
-	vertical-align: center;
-
-	flow-children: right;
-
-	overflow: noclip noclip;
-}
-
-.colorpicker .colorregion Button,
-.colorpicker .colorregion Button:hover
-{
-	z-index: 0;
-	width: 40px;
-	height: 40px;
-
-	margin: 0px;
-
-	overflow: noclip noclip;
-
-	border-style: solid;
-	border-radius: 0px;
-	border-width: 3px;
-	border-color: #18364900;
-	box-shadow: none;
-
-	pre-transform-scale2d: 1.0;
-
-	transition-property: border, pre-transform-scale2d;
-	transition-duration: 0.20s;
-}
-
-.colorpicker .colorregion Button:hover
-{
-	pre-transform-scale2d: 1.3;		
-	z-index: 5;
-}
-
-#AlienColor:descendantfocus .colorregion Button:focus,
-#AlienColor:descendantfocus .colorregion Button:hover,
-#AlienColor:descendantfocus .colorregion Button.active:focus,
-#AlienColor:descendantfocus .colorregion Button.active:hover,
-#AlienColor:descendantfocus .colorregion Button.active:focus:hover,
-#SteamColor:descendantfocus .colorregion Button:focus,
-#SteamColor:descendantfocus .colorregion Button:hover,
-#SteamColor:descendantfocus .colorregion Button.active:focus,
-#SteamColor:descendantfocus .colorregion Button.active:hover,
-#SteamColor:descendantfocus .colorregion Button.active:focus:hover
-{
-	z-index: 10;
-	border-style: solid;
-	border-color: #ffffffff;
-	border-radius: 2px;
-	pre-transform-scale2d: 1.4;
-}
-
-.colorpicker .colorregion Button.active
-{
-	z-index: 6;
-	border-style: solid;
-	border-color: #aaaaaaFF;
-	border-radius: 2px;
-	pre-transform-scale2d: 1.3;
-}
-
-.colorpicker .colorregion Button.active:hover
-{
-	pre-transform-scale2d: 1.35;
-}
-
-.colorborderwrapper
-{
-	z-index: -1;
-}
-
-SettingsPanel_AlienFX .SettingsCenterContent
-{
-	width: 1300px;
-}
-
-.colorborder
-{
-	z-index: -1;
-	width: 804px;
-	height: 44px;
-	vertical-align: center;
-
-	border-style: solid;
-	border-radius: 2px;
-	border-width: 2px;
-	border-color: #183649ff;
-}
-
-#SettingsAccount_VerifyEmail,.VerifyEmail #SettingsAccount_ManageSteamGuard
-{
-	visibility: collapse;
-}
-
-.VerifyEmail #SettingsAccount_VerifyEmail
-{
-	visibility: visible;
-}
-
-.SettingsContentStreaming
-{
-	flow-children: right;
-	height: 70px;
-
-	padding-top: 10px;
-}
-
-#SettingsRemoteClients_Help
-{
-	margin-left: 50px;
-}
-
-#LanguageList,
-#RegionsList
-{
-	padding-left: 5px;
-	padding-right: 5px;
-	height: 500px;
-	width: 500px;
-
-	overflow: squish scroll;
-
-	opacity: 0.8;
-
-	opacity-mask-scroll-up: url( "file://{images}/list_mask_fade_top.png" );
-	opacity-mask-scroll-down: url( "file://{images}/list_mask_fade_bottom.png" );
-	opacity-mask-scroll-up-down: url( "file://{images}/list_mask_fade_both.png" );
-}
-
-#RegionsList
-{
-	min-width: 500px;
-	width: fit-children;
-}
-
-.SettingsContained #LanguageList,
-.SettingsContained #RegionsList
-{
-	height: 500px;
-}
-
-SettingsPanel_Keyboard #LanguageList
-{
-	max-height: 400px;
-	margin-bottom: 40px;
-	height: fit-children;
-	padding: 0px;
-}
-
-SettingsPanel_Keyboard #LanguageList Button
-{
-	padding: 0px;
-}
-
-SettingsPanel_Keyboard .SettingsContent RadioButton
-{
-	width: 900px;
-}
 
-SettingsPanel_Keyboard #RadioButtonContainer,
-SettingsPanel_Keyboard #RadioButtonContainer_Suggest
-{
-	flow-children: down;
-	height: fit-children;
-	width: 100%;
-	margin-bottom: 50px;
+    @media only screen and (min-width: 0px) and (max-width: 479px) {
+		.tparrows.preview1,
+		.tparrows.preview1:after	{	width:40px; height:40px;line-height:40px; font-size:12px}
+    }
+
+/* PREVIEW 1 BULLETS */
+
+.tp-bullets.preview1 						{ 	height: 21px}
+.tp-bullets.preview1 .bullet 				{	cursor: pointer;
+											    position: relative !important;
+											    background: rgba(0, 0, 0, 0.15) !important;
+											    /*-webkit-border-radius: 10px;
+											    border-radius: 10px;*/
+											    -webkit-box-shadow: none;
+											    -moz-box-shadow: none;
+											    box-shadow: none;
+											    width: 5px !important;
+											    height: 5px !important;
+											    border: 8px solid rgba(0, 0, 0, 0) !important;
+											    display: inline-block;
+											    margin-right: 5px !important;
+											    margin-bottom: 0px !important;
+											    -webkit-transition: background-color 0.2s, border-color 0.2s;
+											    -moz-transition: background-color 0.2s, border-color 0.2s;
+											    -o-transition: background-color 0.2s, border-color 0.2s;
+											    -ms-transition: background-color 0.2s, border-color 0.2s;
+											    transition: background-color 0.2s, border-color 0.2s;
+											    float:none !important;
+											    box-sizing:content-box;
+												-moz-box-sizing:content-box;
+												-webkit-box-sizing:content-box;
+}
+.tp-bullets.preview1 .bullet.last 			{	margin-right: 0px}
+.tp-bullets.preview1 .bullet:hover,
+.tp-bullets.preview1 .bullet.selected 		{	-webkit-box-shadow: none;
+											    -moz-box-shadow: none;
+											    box-shadow: none;
+												background: #aaa !important;
+												width: 5px !important;
+											    height: 5px !important;
+											    border: 8px solid rgba(255, 255, 255, 1) !important;
+}
+
+
+
+
+/* NAVIGATION PREVIEW 2 */
+.tparrows.preview2 							{	min-width:60px; min-height:60px; background:#fff; ;
+
+												border-radius:30px;-moz-border-radius:30px;-webkit-border-radius:30px;
+												overflow:hidden;
+												-webkit-transition: -webkit-transform 1.3s;
+												-webkit-transition: width 0.3s, background-color 0.3s, opacity 0.3s;
+												transition: width 0.3s, background-color 0.3s, opacity 0.3s;
+												backface-visibility: hidden;
+}
+.tparrows.preview2:after					{	position:absolute; top:50%; font-family: "revicons"; color:#aaa; font-size:25px; margin-top: -12px; -webkit-transition: color 0.3s; -moz-transition: color 0.3s; transition: color 0.3s }
+.tp-rightarrow.preview2:after				{	content: '\e81e';  right:18px}
+.tp-leftarrow.preview2:after				{	content: '\e81f';  left:18px}
+
+
+.tparrows.preview2 .tp-arr-titleholder 		{	background-size:cover; background-position:center center; display:block; visibility:hidden;position:relative;top:0px;
+												-webkit-transition: -webkit-transform 0.3s;
+												transition: transform 0.3s;
+												-webkit-backface-visibility: hidden;
+												backface-visibility: hidden;
+												white-space: nowrap;
+												color: #000;
+												text-transform: uppercase;
+												font-weight: 400;
+												font-size: 14px;
+												line-height: 60px;
+												padding:0px 10px;
+											}
+
+.tp-rightarrow.preview2 .tp-arr-titleholder	{	 right:50px;
+												-webkit-transform: translateX(-100%);
+												transform: translateX(-100%);
+											}
+.tp-leftarrow.preview2 .tp-arr-titleholder	{	left:50px;
+												-webkit-transform: translateX(100%);
+												transform: translateX(100%);
+											}
+
+.tparrows.preview2.hovered					{	width:300px}
+.tparrows.preview2:hover					{	background:#fff}
+.tparrows.preview2:hover:after				{	color:#000}
+.tparrows.preview2:hover .tp-arr-titleholder{	-webkit-transform: translateX(0px);
+													transform: translateX(0px);
+													visibility: visible;
+													position: absolute;
+											}
+
+/* PREVIEW 2 BULLETS */
+
+.tp-bullets.preview2 						{ 	height: 17px}
+.tp-bullets.preview2 .bullet 				{	cursor: pointer;
+											    position: relative !important;
+											    background: rgba(0, 0, 0, 0.5) !important;
+											    -webkit-border-radius: 10px;
+											    border-radius: 10px;
+											    -webkit-box-shadow: none;
+											    -moz-box-shadow: none;
+											    box-shadow: none;
+											    width: 6px !important;
+											    height: 6px !important;
+											    border: 5px solid rgba(0, 0, 0, 0) !important;
+											    display: inline-block;
+											    margin-right: 2px !important;
+											    margin-bottom: 0px !important;
+											    -webkit-transition: background-color 0.2s, border-color 0.2s;
+											    -moz-transition: background-color 0.2s, border-color 0.2s;
+											    -o-transition: background-color 0.2s, border-color 0.2s;
+											    -ms-transition: background-color 0.2s, border-color 0.2s;
+											    transition: background-color 0.2s, border-color 0.2s;
+											    float:none !important;
+											    box-sizing:content-box;
+												-moz-box-sizing:content-box;
+												-webkit-box-sizing:content-box;
+}
+.tp-bullets.preview2 .bullet.last 			{	margin-right: 0px}
+.tp-bullets.preview2 .bullet:hover,
+.tp-bullets.preview2 .bullet.selected 		{	-webkit-box-shadow: none;
+											    -moz-box-shadow: none;
+											    box-shadow: none;
+												background: rgba(255, 255, 255, 1) !important;
+												width: 6px !important;
+											    height: 6px !important;
+											    border: 5px solid rgba(0, 0, 0, 1) !important;
+}
+
+.tp-arr-titleholder.alwayshidden			{	display:none !important}
+
+
+	@media only screen and (min-width: 768px) and (max-width: 979px) {
+		.tparrows.preview2 {	min-width:40px; min-height:40px; width:40px;height:40px;
+								border-radius:20px;-moz-border-radius:20px;-webkit-border-radius:20px;
+							}
+		.tparrows.preview2:after					{	position:absolute; top:50%; font-family: "revicons"; font-size:20px; margin-top: -12px}
+		.tp-rightarrow.preview2:after				{	content: '\e81e';  right:11px}
+		.tp-leftarrow.preview2:after				{	content: '\e81f';  left:11px}
+		.tparrows.preview2 .tp-arr-titleholder		{	font-size:12px; line-height:40px; letter-spacing: 0px}
+		.tp-rightarrow.preview2 .tp-arr-titleholder	{	right:35px}
+		.tp-leftarrow.preview2 .tp-arr-titleholder	{	left:35px}
+
+	}
+
+    @media only screen and (min-width: 480px) and (max-width: 767px) {
+   		 .tparrows.preview2 						{	min-width:30px; min-height:30px; width:30px;height:30px;
+														border-radius:15px;-moz-border-radius:15px;-webkit-border-radius:15px;
+													}
+		.tparrows.preview2:after					{	position:absolute; top:50%; font-family: "revicons"; font-size:14px; margin-top: -12px}
+		.tp-rightarrow.preview2:after				{	content: '\e81e';  right:8px}
+		.tp-leftarrow.preview2:after				{	content: '\e81f';  left:8px}
+		.tparrows.preview2 .tp-arr-titleholder		{	font-size:10px; line-height:30px; letter-spacing: 0px}
+		.tp-rightarrow.preview2 .tp-arr-titleholder	{	right:25px}
+		.tp-leftarrow.preview2 .tp-arr-titleholder	{	left:25px}
+		.tparrows.preview2 .tp-arr-titleholder		{	display:none;visibility:none}
+
+
+	}
+
+    @media only screen and (min-width: 0px) and (max-width: 479px) {
+		.tparrows.preview2 							{	min-width:30px; min-height:30px; width:30px;height:30px;
+														border-radius:15px;-moz-border-radius:15px;-webkit-border-radius:15px;
+													}
+		.tparrows.preview2:after					{	position:absolute; top:50%; font-family: "revicons"; font-size:14px; margin-top: -12px}
+		.tp-rightarrow.preview2:after				{	content: '\e81e';  right:8px}
+		.tp-leftarrow.preview2:after				{	content: '\e81f';  left:8px}
+		.tparrows.preview2 .tp-arr-titleholder		{	display:none;visibility:none}
+		.tparrows.preview2:hover					{	width:30px !important; height:30px !important}
+    }
+
+
+
+/* NAVIGATION PREVIEW 3 */
+.tparrows.preview3 							{	width:70px; height:70px; background:#fff; background:rgba(255,255,255,1); -webkit-transform-style: flat}
+.tparrows.preview3:after					{	position:absolute;  line-height: 70px;text-align: center; font-family: "revicons"; color:#aaa; font-size:30px; top:0px;left:0px;;background:#fff; z-index:100; width:70px;height:70px; -webkit-transition: color 0.3s; -moz-transition: color 0.3s; transition: color 0.3s}
+.tparrows.preview3:hover:after					{	color:#000}
+.tp-rightarrow.preview3:after				{	content: '\e825';  }
+.tp-leftarrow.preview3:after				{	content: '\e824';  }
+
+
+.tparrows.preview3 .tp-arr-iwrapper			{
+												  -webkit-transform: scale(0,1);
+												  transform: scale(0,1);
+												  -webkit-transform-origin: 100% 50%;
+												  transform-origin: 100% 50%;
+												  -webkit-transition: -webkit-transform 0.2s;
+												  transition: transform 0.2s;
+												  z-index:0;position: absolute; background: #000; background: rgba(0,0,0,0.75);
+												  display: table;min-height:90px;top:-10px}
+
+.tp-leftarrow.preview3 .tp-arr-iwrapper		{	 -webkit-transform: scale(0,1);
+												  transform: scale(0,1);
+												  -webkit-transform-origin: 0% 50%;
+												  transform-origin: 0% 50%;
+											}
+
+.tparrows.preview3 .tp-arr-imgholder 		{	display:block;background-size:cover; background-position:center center; display:table-cell;min-width:90px;height:90px;
+												position:relative;top:0px}
+
+.tp-rightarrow.preview3 .tp-arr-iwrapper	{	right:0px;padding-right:70px}
+.tp-leftarrow.preview3 .tp-arr-iwrapper		{	left:0px; direction: rtl;padding-left:70px}
+.tparrows.preview3 .tp-arr-titleholder		{	display:table-cell; padding:30px;font-size:16px; color:#fff;white-space: nowrap; position: relative; clear:right;vertical-align: middle}
+
+.tparrows.preview3:hover .tp-arr-iwrapper	{
+												-webkit-transform: scale(1,1);
+												  transform: scale(1,1);
+
+											}
+
+/* PREVIEW 3 BULLETS */
+.tp-bullets.preview3 						{ 	height: 17px}
+.tp-bullets.preview3 .bullet 				{	cursor: pointer;
+											    position: relative !important;
+											    background: rgba(0, 0, 0, 0.5) !important;
+											    -webkit-border-radius: 10px;
+											    border-radius: 10px;
+											    -webkit-box-shadow: none;
+											    -moz-box-shadow: none;
+											    box-shadow: none;
+											    width: 6px !important;
+											    height: 6px !important;
+											    border: 5px solid rgba(0, 0, 0, 0) !important;
+											    display: inline-block;
+											    margin-right: 2px !important;
+											    margin-bottom: 0px !important;
+											    -webkit-transition: background-color 0.2s, border-color 0.2s;
+											    -moz-transition: background-color 0.2s, border-color 0.2s;
+											    -o-transition: background-color 0.2s, border-color 0.2s;
+											    -ms-transition: background-color 0.2s, border-color 0.2s;
+											    transition: background-color 0.2s, border-color 0.2s;
+											    float:none !important;
+											    box-sizing:content-box;
+												-moz-box-sizing:content-box;
+												-webkit-box-sizing:content-box;
+}
+.tp-bullets.preview3 .bullet.last 			{	margin-right: 0px}
+.tp-bullets.preview3 .bullet:hover,
+.tp-bullets.preview3 .bullet.selected 		{	-webkit-box-shadow: none;
+											    -moz-box-shadow: none;
+											    box-shadow: none;
+												background: rgba(255, 255, 255, 1) !important;
+												width: 6px !important;
+											    height: 6px !important;
+											    border: 5px solid rgba(0, 0, 0, 1) !important;
 }
 
-SettingsPanel_Keyboard .HorzContainer,
-SettingsPanel_Keyboard .HorzContainer Button
-{
-	width: 100%;
-}
-
-SettingsPanel_Keyboard .HorzContainer Button
-{
-	margin-right: 10px;
-}
-
-SettingsPanel_Keyboard .VertContainer
-{
-	width: 800px;
-}
-
-SettingsPanel_Keyboard Panel:disabled,
-SettingsPanel_Keyboard Label:disabled
-{
-	visibility: collapse;
-}
-
-#LanguageList:descendantfocus,
-#RegionsList:descendantfocus
-{
-	opacity: 1.0;
-}
-
-#LanguageList Button,
-TimeZoneRegionPanel Button
-{
-	background-color: none;
-	margin-top: 0px;
-	margin-bottom: 0px;
-	padding-left: 2px;
-	box-shadow: none;
-	transition-property: background-color;
-	animation-name: none;
-	height: 50px;
-}
-
-TimeZoneRegionPanel Button
-{
-	min-width: 475px;
-	width: fit-children;
-	height: fit-children;
-}
-
-#LanguageList Button:focus,
-#LanguageList Button.SelectedLanguage:focus,
-TimeZoneRegionPanel Button:focus,
-TimeZoneRegionPanel Button.SelectedRegion:focus
-{
-	border-width: 5px;
-	border-style: solid;
-	border-color: #fdfefef0;
-	padding-right: 10px;
-	
-	background-color: gradient( linear, -15% 0%, 100% 0%, from( #fdfdfdff ), to( #bdbfbfff ) );
-
-	animation-name: main-button-glow-movement;
-	animation-duration: 1.7s;
-	animation-delay: 0.0s;
-	animation-timing-function: bigpicture-ease-in-out;
-	animation-iteration-count: infinite;
-	animation-direction: normal;
-}
-
-#LanguageList Button.SelectedLanguage,
-TimeZoneRegionPanel Button.SelectedRegion
-{
-	background-color: blue;
-}
-
-#LanguageList Button Label,
-TimeZoneRegionPanel Button Label
-{
-	vertical-align: center;
-	font-size: 24px;
-	font-family: platformfont;
-	color: applabelsolid;
-
-	transition-property: color, transform;
-	transition-duration: 0.23s;
-	transition-timing-function: bigpicture-ease-in-out;
-}
-
-#LanguageList Button:hover Label,
-TimeZoneRegionPanel Button:hover Label
-{
-	transform: translateX( 5px );
-}
-	
-#LanguageList Button:focus Label,
-#LanguageList Button:selected Label,
-TimeZoneRegionPanel Button:focus Label,
-TimeZoneRegionPanel Button:selected Label
-{
-	color: applabelselectedsolid;	
-	transform: translateX( 5px );
-}
-
-#LanguageList Button.SelectedLanguage Label,
-TimeZoneRegionPanel Button.SelectedRegion Label
-{
-	transform: translateX( 5px );
-}
-
-#SearchProviderContainer
-{
-	visibility: visible;
-	margin-left: 0px;
-	width: 700px;
-}
-
-#SettingsInterface_CustomSearchProviderURL
-{
-	width: 423px;
-	margin-left: 50px;
-	margin-bottom: 10px;
-}
-
-.SettingsSearchProviderHint
-{
-	margin-left: 44px;
-	margin-top: 0px;
-	margin-bottom: 0px;
-}
-
-#SearchProviderContainer, #SearchProvidersCustom
-{
-	flow-children: down;
-}
-
-#SearchProvidersCustom
-{
-	height: 140px;
-	margin-top: 20px;
-}
-
-
-
-.SettingsStore_Config
-{
-	flow-children: right;	
-	vertical-align: center;
-	margin-bottom: 10px;
-}
-
-#LocalWindows
-{
-	visibility: collapse;
-}
-
-.ShowLocalWindows #LocalWindows
-{
-	visibility: visible;
-}
-
-#LocalOSX
-{
-	visibility: collapse;
-}
-
-.ShowLocalOSX #LocalOSX
-{
-	visibility: visible;
-}
-
-#LocalSteamOS
-{
-	visibility: collapse;
-}
-
-.ShowLocalSteamOS #LocalSteamOS
-{
-	visibility: visible;
-}
-
-#LocalLinux
-{
-	visibility: collapse;
-}
-
-.ShowLocalLinux #LocalLinux
-{
-	visibility: visible;
-}
-
-#InputXInput
-{
-	visibility: collapse;
-}
-
-.ShowInputXInput #InputXInput
-{
-	visibility: visible;
-}
-
-#InputKeyboard
-{
-	visibility: collapse;
-}
-
-.ShowInputKeyboard #InputKeyboard
-{
-	visibility: visible;
-}
-
-#InputSteampad
-{
-	visibility: collapse;
-}
-
-.ShowInputSteampad #InputSteampad
-{
-	visibility: visible;
-}
-
-#StreamingWindows
-{
-	visibility: collapse;
-}
-
-.ShowStreamingWindows #StreamingWindows
-{
-	visibility: visible;
-}
-
-#StreamingOSX
-{
-	visibility: collapse;
-}
-
-.ShowStreamingOSX #StreamingOSX
-{
-	visibility: visible;
-}
-
-#StreamingLinux
-{
-	visibility: collapse;
-}
-
-.ShowStreamingLinux #StreamingLinux
-{
-	visibility: visible;
-}
-
-.ConfigLabel
-{
-	vertical-align: center;
-	color: applabelsolid;
-	margin-left: 4px;
-}
-
-.SettingsIcon
-{
-	visibility: visible;
-	width: 50px;
-	height: 50px;
-	color: applabelsolid;
-	background-size: contain;
-	background-repeat: no-repeat;
-	horizontal-align: left;
-	vertical-align: center;
-}
-
-#SettingsIcon_OSConfig_Win
-{
-	background-image: url( "file://{images}/store/icon_windows_storefront.png" );
-}
-
-#SettingsIcon_OSConfig_OSX
-{
-	background-image: url( "file://{images}/store/icon_mac_storefront.png" );
-}
 
-#SettingsIcon_OSConfig_Linux,
-#SettingsIcon_OSConfig_SteamOS
-{
-	background-image: url( "file://{images}/store/icon_steamos_storefront.png" );
-}
-
-#SettingsIcon_InputConfig_XInput
-{
-	background-image: url( "file://{images}/store/icon_fullcontroller.png" );
-	width: 40px;
-	height: 40px;
-	margin: 0px 5px 0px 5px;
-}
-
-#SettingsIcon_InputConfig_Steampad
-{
-	background-image: url( "file://{images}/store/icon_steamcontroller.png" );
-	width: 40px;
-	height: 40px;
-	margin: 0px 5px 0px 5px;
-}
-#SettingsIcon_InputConfig_Keyboard
-{
-	background-image: url( "file://{images}/store/icon_keyboard.png" );
-	width: 40px;
-	height: 40px;
-	margin: 0px 5px 0px 5px;
-}
-
-#SettingsBroadcast_SubControls .SettingsLeftContent
-{
-	width: 600px;
-}
-
-#SettingsBroadcast_SubControls DropDown,
-#SettingsBroadcast_SubControls ToggleButton
-{
-	horizontal-align: left;
-	width: 600px;
-}
-
-#SettingsDiskSpaceManagement_IntroBlock
-{
-	flow-children: down;
-}
-
-.HiddenColum.SettingsContent
-{
-	visibility: collapse;
-}
-
-SettingsPanelDiskManagementAppListing.Deleting Button
-{
-	wash-color: #ffffffaa;
-}
-
-SettingsPanelDiskManagementAppListing.EmptyEntry, 
-#BluetoothNotFound
-{
-	visibility: collapse;
-}
-
-.Empty SettingsPanelDiskManagementAppListing.EmptyEntry, 
-.Empty #BluetoothNotFound
-{
-	visibility: visible;
-}
-
-
-.NonSteamOSButton,
-#SettingsInterface_EnableScreenSaver.CheckBox,
-#SearchProviders.Radios,
-#SearchProviders .Button.RadioButton,
-.Cookie.Button
-{
-	width: fit-children;
-	min-width: 600px;
-	padding-right: 10px;
-}
-
-.OOBE #NetworkForget
-{
- 	visibility: collapse;
-}
-
-OOBEWizard SettingsPanelNetwork_Device #ButtonBack,
-OOBEWizard SettingsPanelNetwork_Connect #ButtonNext
-{
-	visibility: visible;
-}
-
-SettingsPanelNetwork_Device #ButtonBack,
-OOBEWizard #ButtonCancel,
-OOBEWizard SettingsPanelNetwork_Connect.NetworkConnectionComplete #ButtonBack,
-SettingsPanelNetwork_Connect #ButtonNext,
-OOBEWizard SettingsPanelNetwork_Connect #ButtonDone
-{
-	visibility: collapse;
-}
-
-.TimeZoneRegionDetailText
-{
-	color: tcstatictext;
-}
-
-SettingsPanelNetwork_IPCustomSettings #WrapperPanel
-{
-	flow-children: down;
-	margin-left: 7px;
-}
-
-
-AddShortcutPanel
-{
-    width: 100%;
-    height: 100%;
-}
-
-AddShortcutPanel.SettingsSection
-{
-	opacity: 1.0;
-	flow-children: none;
-}
-
-AddShortcutPanel #ShortcutsGrid
-{
-	width: 100%;
-	height: 100%;
-
-	pre-transform-scale2d: 1.0, 1.0;
-
-	position: 0px 126px 0px;
-	margin-top: 00px;
-}
-
-
-AddShortcutPanel #FastScrollWrapper
-{
-	z-index: 100;
-	flow-children: right;
-	width: 100%;
-}
-
-AddShortcutPanel #FastScrollLabel
-{
-	margin-top: 100px;
-	margin-left: 520px;
-	font-size: 600px;
-
-	height: 720px;
-	width: 100%;
-	
-	z-index: 100;
-
-	color: #f2f2f2ff;
-	opacity: 0.0;
-	
-	text-transform: uppercase;
-
-	transition-property: opacity;
-	transition-duration: 0.2s;
-	transition-timing-function: bigpicture-ease-in-out;
-	transition-delay: 0s;
-
-}
-
-AddShortcutPanel #TypeToJumpLabel
-{
-	margin-top: 300px;
-	font-size: 300px;
-
-	z-index: 100;
-
-	color: #f2f2f2ff;
-	opacity: 0.0;
-	
-	transition-property: opacity;
-	transition-duration: 0.2s;
-	transition-timing-function: bigpicture-ease-in-out;
-	transition-delay: 0s;
-}
+	@media only screen and (min-width: 768px) and (max-width: 979px) {
+		.tparrows.preview3:after,
+		.tparrows.preview3 							{	width:50px; height:50px; line-height:50px;font-size:20px}
+		.tparrows.preview3 .tp-arr-iwrapper			{	min-height:70px}
+		.tparrows.preview3 .tp-arr-imgholder 		{	min-width:70px;height:70px}
+		.tp-rightarrow.preview3 .tp-arr-iwrapper	{	padding-right:50px}
+		.tp-leftarrow.preview3 .tp-arr-iwrapper		{	padding-left:50px}
+		.tparrows.preview3 .tp-arr-titleholder		{	padding:10px;font-size:16px}
 
-.Moving #FastScrollLabel
-{
-	opacity: 1.0;
-	transition-duration: 0.5s;
-}
-
-.Moving #TypeToJumpLabel
-{
-	opacity: 1.0;
-	transition-duration: 0.5s;
-}
-
-AddShortcutPanel .GamesGrid
-{
-	margin-top: 40px;
-	padding-top: 70px;
-	padding-left: 140px;
-	position: 390px 0px 0px;
-
 
-	width: 1500px;
-	height: 100%;
-	
-	opacity-mask-scroll-up: url( "file://{images}/library/scroll_data_mask_up.tga" );
-	opacity-mask-scroll-down: url( "file://{images}/library/scroll_data_mask_down.tga" );
-	opacity-mask-scroll-up-down: url( "file://{images}/library/scroll_data_mask_both.tga" );
-
-	transform: translateX( 0px );
-	transition-delay: 0s;
-	transition-duration: 0.3s;
-	transition-timing-function: bigpicture-ease-in-out;
-	transition-property: transform, width;
-}
-
-OOBEWizard #ChildContainer .SettingsBottomPanel
-{
-	margin-left: 0px;
-	margin-top: 0px;
-}
-
-SettingsPanel .Button
-{
-	width: 430px;
-	margin-right: 10px;
-	margin-bottom: 3px;
-	background-color: transparent_module;
-	border-radius: 3px;
-}
 
-.SettingCategory
-{
-	text-align: left;
-	width: 100%;
-	padding-top: 25px;
-	padding-bottom: 3px;
-	color: #ffffff;
-	font-size: 30px;
-}
+	}
 
-.SettingCategoryWrapper
-{
-	background-color: gradient( linear, 0% 0%, 100% 100%, from( #00000040 ), color-stop( 0.5, #00000040 ), to( #00000000 ) );
-	margin-bottom: 15px;
-	padding: 10px 0px 0px 20px;
-	width: 1600px;
-}
+    @media only screen  and (max-width: 767px) {
 
-// Urgh, this is a bit of a hack. The timezone interior panel is used by both the OOBE and the regular settings dialog.
-// The styles are set up in such a way that this is the easiest way to align everything.
-#ContentFrame #Settings_TimeZone .SettingsContent
-{
-	padding-left: 0px;
-}
+		.tparrows.preview3:after,
+		.tparrows.preview3 							{	width:50px; height:50px; line-height:50px;font-size:20px}
+		.tparrows.preview3 .tp-arr-iwrapper			{	min-height:70px}
+	}
 
-SettingsPanel_Keyboard .SettingsContent
-{
-	width: 84%;
-}
 
-SettingsPanel .SettingsContent
-{
-	padding: 0px 0px 0px 0px;
-}
 
-.SettingsSubcheckboxes
-{
-	margin-top: 4px;
-	margin-left: 56px;
-	margin-bottom: 4px;
-}
 
-// Temp stuff for the coming soon messages on the controller config settings page
-SettingsPanel_ControllerConfigs .SettingsContent
-{
-	flow-children: right;
-}
-.CfgComingSoon
-{
-	vertical-align: center;
-	font-size: 26px;
-	margin-bottom: 5px;
-}
 
-.OnlyVisibleWithSteamControllersConnected
-{
-	visibility: collapse;
-}
+/* NAVIGATION PREVIEW 4 */
+.tparrows.preview4 							{	width:30px; height:110px;  background:transparent;-webkit-transform-style: preserve-3d; -webkit-perspective: 1000; -moz-perspective: 1000}
+.tparrows.preview4:after					{	position:absolute;  line-height: 110px;text-align: center; font-family: "revicons"; color:#fff; font-size:20px; top:0px;left:0px;z-index:0; width:30px;height:110px; background: #000; background: rgba(0,0,0,0.25);
+												-webkit-transition: all 0.2s ease-in-out;
+											    -moz-transition: all 0.2s ease-in-out;
+											    -o-transition: all 0.2s ease-in-out;
+											    transition: all 0.2s ease-in-out;
+												   -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";filter: alpha(opacity=100);-moz-opacity: 1;-khtml-opacity: 1;opacity: 1;
+
+											}
+
+.tp-rightarrow.preview4:after				{	content: '\e825';  }
+.tp-leftarrow.preview4:after				{	content: '\e824';  }
+
+
+.tparrows.preview4 .tp-arr-allwrapper		{	visibility:hidden;width:180px;position: absolute;z-index: 1;min-height:120px;top:0px;left:-150px; overflow: hidden;-webkit-perspective: 1000px;-webkit-transform-style: flat}
+
+.tp-leftarrow.preview4 .tp-arr-allwrapper	{	left:0px}
+.tparrows.preview4 .tp-arr-iwrapper			{	position: relative}
+
+.tparrows.preview4 .tp-arr-imgholder 		{	display:block;background-size:cover; background-position:center center;width:180px;height:110px;
+												position:relative;top:0px;
+
+												-webkit-backface-visibility: hidden;
+												backface-visibility: hidden;
+
+
+
+											}
+
+
+.tparrows.preview4 .tp-arr-imgholder2 		{	display:block;background-size:cover; background-position:center center; width:180px;height:110px;
+												position:absolute;top:0px; left:180px;
+												-webkit-backface-visibility: hidden;
+												backface-visibility: hidden;
+
+											}
+
+.tp-leftarrow.preview4 .tp-arr-imgholder2 	{	left:-180px}
+
+
+
+
+.tparrows.preview4 .tp-arr-titleholder		{	display:block; font-size:12px; line-height:25px; padding:0px 10px;text-align:left;color:#fff; position: relative;
+												background: #000;
+												color: #FFF;
+												text-transform: uppercase;
+												white-space: nowrap;
+												letter-spacing: 1px;
+												font-weight: 700;
+												font-size: 11px;
+												line-height: 2.75;
+												-webkit-transition: all 0.3s;
+												transition: all 0.3s;
+												-webkit-transform: rotateX(-90deg);
+												transform: rotateX(-90deg);
+												-webkit-transform-origin: 50% 0;
+												transform-origin: 50% 0;
+												-webkit-backface-visibility: hidden;
+												backface-visibility: hidden;
+												  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";filter: alpha(opacity=0);-moz-opacity: 0.0;-khtml-opacity: 0.0;opacity: 0.0;
+
+
+}
+
+
+
+.tparrows.preview4:after				{	transform-origin: 100% 100%; -webkit-transform-origin: 100% 100%}
+.tp-leftarrow.preview4:after			{	transform-origin: 0% 0%; -webkit-transform-origin: 0% 0%}
+
+
+
+
+@media only screen and (min-width: 768px)  {
+		.tparrows.preview4:hover:after				{	-webkit-transform: rotateY(-90deg); transform:rotateY(-90deg)}
+		.tp-leftarrow.preview4:hover:after			{	-webkit-transform: rotateY(90deg); transform:rotateY(90deg)}
+
+
+		.tparrows.preview4:hover .tp-arr-titleholder	{	-webkit-transition-delay: 0.4s;
+															transition-delay: 0.4s;
+															-webkit-transform: rotateX(0deg);
+															transform: rotateX(0deg);
+															-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";filter: alpha(opacity=100);-moz-opacity: 1;-khtml-opacity: 1;opacity: 1;
+
+														}
+}
+
+/* PREVIEW 4 BULLETS */
+
+.tp-bullets.preview4 						{ 	height: 17px}
+.tp-bullets.preview4 .bullet 				{	cursor: pointer;
+											    position: relative !important;
+											    background: rgba(0, 0, 0, 0.5) !important;
+											    -webkit-border-radius: 10px;
+											    border-radius: 10px;
+											    -webkit-box-shadow: none;
+											    -moz-box-shadow: none;
+											    box-shadow: none;
+											    width: 6px !important;
+											    height: 6px !important;
+											    border: 5px solid rgba(0, 0, 0, 0) !important;
+											    display: inline-block;
+											    margin-right: 2px !important;
+											    margin-bottom: 0px !important;
+											    -webkit-transition: background-color 0.2s, border-color 0.2s;
+											    -moz-transition: background-color 0.2s, border-color 0.2s;
+											    -o-transition: background-color 0.2s, border-color 0.2s;
+											    -ms-transition: background-color 0.2s, border-color 0.2s;
+											    transition: background-color 0.2s, border-color 0.2s;
+											    float:none !important;
+											    box-sizing:content-box;
+												-moz-box-sizing:content-box;
+												-webkit-box-sizing:content-box;
+}
+.tp-bullets.preview4 .bullet.last 			{	margin-right: 0px}
+.tp-bullets.preview4 .bullet:hover,
+.tp-bullets.preview4 .bullet.selected 		{	-webkit-box-shadow: none;
+											    -moz-box-shadow: none;
+											    box-shadow: none;
+												background: rgba(255, 255, 255, 1) !important;
+												width: 6px !important;
+											    height: 6px !important;
+											    border: 5px solid rgba(0, 0, 0, 1) !important;
+}
+
+
+    @media only screen  and (max-width: 767px) {
+   		 .tparrows.preview4 						{	width:20px; height:80px}
+   		 .tparrows.preview4:after					{	width:20px; height:80px; line-height:80px; font-size:14px}
+
+   		 .tparrows.preview1 .tp-arr-allwrapper,
+   		 .tparrows.preview2 .tp-arr-allwrapper,
+   		 .tparrows.preview3 .tp-arr-allwrapper,
+   		 .tparrows.preview4 .tp-arr-allwrapper		{	display: none !important}
+    }
+
+
+
+/******************************
+	-	LOADER FORMS	-
+********************************/
+
+.tp-loader 	{
+				top:50%; left:50%;
+				z-index:10000;
+				position:absolute;
+
+
+			}
+
+.tp-loader.spinner0 {
+  width: 40px;
+  height: 40px;
+  background:url(../assets/loader.gif) no-repeat center center;
+  background-color: #fff;
+  box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.15);
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.15);
+  margin-top:-20px;
+  margin-left:-20px;
+  -webkit-animation: tp-rotateplane 1.2s infinite ease-in-out;
+  animation: tp-rotateplane 1.2s infinite ease-in-out;
+  border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+
+.tp-loader.spinner1 {
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.15);
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.15);
+  margin-top:-20px;
+  margin-left:-20px;
+  -webkit-animation: tp-rotateplane 1.2s infinite ease-in-out;
+  animation: tp-rotateplane 1.2s infinite ease-in-out;
+  border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+
+
+.tp-loader.spinner5 	{	background:url(../assets/loader.gif) no-repeat 10px 10px;
+							background-color:#fff;
+							margin:-22px -22px;
+							width:44px;height:44px;
+							border-radius: 3px;
+							-moz-border-radius: 3px;
+							-webkit-border-radius: 3px;
+						}
+
+
+@-webkit-keyframes tp-rotateplane {
+  0% { -webkit-transform: perspective(120px) }
+  50% { -webkit-transform: perspective(120px) rotateY(180deg) }
+  100% { -webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg) }
+}
 
-.SteamControllerConnected .OnlyVisibleWithSteamControllersConnected
-{
-	visibility: visible;
+@keyframes tp-rotateplane {
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
+  } 50% {
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
+  } 100% {
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
 }
 
-.SettingsBluetooth_ColLeft
 
-{
+.tp-loader.spinner2 {
+  width: 40px;
+  height: 40px;
+  margin-top:-20px;margin-left:-20px;
+  background-color: #ff0000;
+   box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.15);
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.15);
+  border-radius: 100%;
+  -webkit-animation: tp-scaleout 1.0s infinite ease-in-out;
+  animation: tp-scaleout 1.0s infinite ease-in-out;
+}
+
+@-webkit-keyframes tp-scaleout {
+  0% { -webkit-transform: scale(0.0) }
+  100% {
+    -webkit-transform: scale(1.0);
+    opacity: 0;
+  }
+}
+
+@keyframes tp-scaleout {
+  0% {
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 100% {
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+    opacity: 0;
+  }
+}
+
+
+
+
+.tp-loader.spinner3 {
+  margin: -9px 0px 0px -35px;
+  width: 70px;
+  text-align: center;
 
-	width: 150px;
-
 }
-
-.SettingsBluetooth_ColMiddle
 
-{
-
-	width: fill-parent-flow(1.0);
-
-	horizontal-align: right;
-
+.tp-loader.spinner3 .bounce1,
+.tp-loader.spinner3 .bounce2,
+.tp-loader.spinner3 .bounce3 {
+  width: 18px;
+  height: 18px;
+  background-color: #fff;
+  box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.15);
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.15);
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: tp-bouncedelay 1.4s infinite ease-in-out;
+  animation: tp-bouncedelay 1.4s infinite ease-in-out;
+  /* Prevent first frame from flickering when animation starts */
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
 }
-
-
-.SettingsBluetooth_ColRight
-
-{
 
-	horizontal-align: right;
-
-	text-align: right;
-
+.tp-loader.spinner3 .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
 }
 
-#BluetoothNotFound Label
-{
-    margin-left: 10px;
+.tp-loader.spinner3 .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
 }
 
-.VROnly
-{
-	visibility: collapse;
+@-webkit-keyframes tp-bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0.0) }
+  40% { -webkit-transform: scale(1.0) }
 }
 
-.VR .VROnly
-{
-	visibility: visible;
+@keyframes tp-bouncedelay {
+  0%, 80%, 100% {
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 40% {
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
 }
 
-#SettingsController_NintendoLayout.NintendoEnabled
-{
-    visibility: visible;
-}
 
-#NintendoLayoutPanel
-{
-    height: 800px;
+
+
+.tp-loader.spinner4 {
+  margin: -20px 0px 0px -20px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  -webkit-animation: tp-rotate 2.0s infinite linear;
+  animation: tp-rotate 2.0s infinite linear;
 }
-#SettingsController_NintendoLayout
-{
-    visibility: collapse;
-}
 
-#NintendoLayoutHelpImage
-{
-    background-repeat: no-repeat no-repeat;
-	background-position: left 60px top 200px;
-    width: 100%;
-    height: 100%;
-    background-image: url("file://{images}/library/controller/controller_standard_layout.png");
-    opacity: 0.8;
+.tp-loader.spinner4 .dot1,
+.tp-loader.spinner4 .dot2 {
+  width: 60%;
+  height: 60%;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  background-color: #fff;
+  border-radius: 100%;
+  -webkit-animation: tp-bounce 2.0s infinite ease-in-out;
+  animation: tp-bounce 2.0s infinite ease-in-out;
+  box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.15);
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.15);
 }
 
-
-#NintendoLayoutHelpImage.NintendoLayout
-{
-    background-image: url("file://{images}/library/controller/controller_nintendo_layout.png");
-}
+.tp-loader.spinner4 .dot2 {
+  top: auto;
+  bottom: 0px;
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+@-webkit-keyframes tp-rotate { 100% { -webkit-transform: rotate(360deg) }}
+@keyframes tp-rotate { 100% { transform: rotate(360deg); -webkit-transform: rotate(360deg) }}
+
+@-webkit-keyframes tp-bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes tp-bounce {
+  0%, 100% {
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% {
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+
+
+
+.tp-transparentimg {	content:"url(../assets/transparent.png)"}
+.tp-3d				{	-webkit-transform-style: preserve-3d;
+						 -webkit-transform-origin: 50% 50%;
+					}
+
+
+
+.tp-caption img {
+background: transparent;
+-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF)";
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF);
+zoom: 1;
+}
+
+
+@font-face {
+  font-family: 'revicons';
+  src: url('../font/revicons.eot?5510888');
+  src: url('../font/revicons.eot?5510888#iefix') format('embedded-opentype'),
+       url('../font/revicons.woff?5510888') format('woff'),
+       url('../font/revicons.ttf?5510888') format('truetype'),
+       url('../font/revicons.svg?5510888#revicons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'revicons';
+    src: url('../font/revicons.svg?5510888#revicons') format('svg');
+  }
+}
+*/
+
+ [class^="revicon-"]:before, [class*=" revicon-"]:before {
+  font-family: "revicons";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+.revicon-search-1:before { content: '\e802'} /* '' */
+.revicon-pencil-1:before { content: '\e831'} /* '' */
+.revicon-picture-1:before { content: '\e803'} /* '' */
+.revicon-cancel:before { content: '\e80a'} /* '' */
+.revicon-info-circled:before { content: '\e80f'} /* '' */
+.revicon-trash:before { content: '\e801'} /* '' */
+.revicon-left-dir:before { content: '\e817'} /* '' */
+.revicon-right-dir:before { content: '\e818'} /* '' */
+.revicon-down-open:before { content: '\e83b'} /* '' */
+.revicon-left-open:before { content: '\e819'} /* '' */
+.revicon-right-open:before { content: '\e81a'} /* '' */
+.revicon-angle-left:before { content: '\e820'} /* '' */
+.revicon-angle-right:before { content: '\e81d'} /* '' */
+.revicon-left-big:before { content: '\e81f'} /* '' */
+.revicon-right-big:before { content: '\e81e'} /* '' */
+.revicon-magic:before { content: '\e807'} /* '' */
+.revicon-picture:before { content: '\e800'} /* '' */
+.revicon-export:before { content: '\e80b'} /* '' */
+.revicon-cog:before { content: '\e832'} /* '' */
+.revicon-login:before { content: '\e833'} /* '' */
+.revicon-logout:before { content: '\e834'} /* '' */
+.revicon-video:before { content: '\e805'} /* '' */
+.revicon-arrow-combo:before { content: '\e827'} /* '' */
+.revicon-left-open-1:before { content: '\e82a'} /* '' */
+.revicon-right-open-1:before { content: '\e82b'} /* '' */
+.revicon-left-open-mini:before { content: '\e822'} /* '' */
+.revicon-right-open-mini:before { content: '\e823'} /* '' */
+.revicon-left-open-big:before { content: '\e824'} /* '' */
+.revicon-right-open-big:before { content: '\e825'} /* '' */
+.revicon-left:before { content: '\e836'} /* '' */
+.revicon-right:before { content: '\e826'} /* '' */
+.revicon-ccw:before { content: '\e808'} /* '' */
+.revicon-arrows-ccw:before { content: '\e806'} /* '' */
+.revicon-palette:before { content: '\e829'} /* '' */
+.revicon-list-add:before { content: '\e80c'} /* '' */
+.revicon-doc:before { content: '\e809'} /* '' */
+.revicon-left-open-outline:before { content: '\e82e'} /* '' */
+.revicon-left-open-2:before { content: '\e82c'} /* '' */
+.revicon-right-open-outline:before { content: '\e82f'} /* '' */
+.revicon-right-open-2:before { content: '\e82d'} /* '' */
+.revicon-equalizer:before { content: '\e83a'} /* '' */
+.revicon-layers-alt:before { content: '\e804'} /* '' */
+.revicon-popup:before { content: '\e828'} /* '' */
